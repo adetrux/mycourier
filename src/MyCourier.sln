@@ -9,9 +9,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{BF
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{B0A419D1-040E-4AC5-B954-79F17B02F6DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ocelot.ApiGateway", "ApiGateways\Ocelot.ApiGateway\Ocelot.ApiGateway.csproj", "{6CDB4F60-8A4B-413F-8E8F-7E413F8A49CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ocelot.ApiGateway", "ApiGateways\Ocelot.ApiGateway\Ocelot.ApiGateway.csproj", "{6CDB4F60-8A4B-413F-8E8F-7E413F8A49CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.Api", "Services\Users\Users.Api\Users.Api.csproj", "{C72E06D9-1606-4298-9CCF-3BFF22D3ABA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Users.Api", "Services\Users\Users.Api\Users.Api.csproj", "{C72E06D9-1606-4298-9CCF-3BFF22D3ABA0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Users", "Users", "{706A43D8-1424-47F0-A6E9-6FCC3E58EF79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,7 +35,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6CDB4F60-8A4B-413F-8E8F-7E413F8A49CF} = {55812DA6-F864-46A2-BB26-75FDD316109B}
-		{C72E06D9-1606-4298-9CCF-3BFF22D3ABA0} = {BF486FD4-2E21-40C9-8B4A-E4E55695DDDC}
+		{C72E06D9-1606-4298-9CCF-3BFF22D3ABA0} = {706A43D8-1424-47F0-A6E9-6FCC3E58EF79}
+		{706A43D8-1424-47F0-A6E9-6FCC3E58EF79} = {BF486FD4-2E21-40C9-8B4A-E4E55695DDDC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F8E2AD97-6965-4125-ABFB-81066E152AFE}
