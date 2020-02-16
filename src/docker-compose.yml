@@ -6,10 +6,31 @@ services:
     build:
       context: .
       dockerfile: Services/Users/Users.Api/Dockerfile
+    ports:
+      - "8000:80"
+    depends_on:
+      - usersdb
+    networks:
+      - mycouriernetwork
 
   ocelot.apigateway:
     image: ${DOCKER_REGISTRY-}ocelotapigateway
     build:
       context: .
       dockerfile: ApiGateways/Ocelot.ApiGateway/Dockerfile
+    networks:
+      - mycouriernetwork
 
+  usersdb:
+    image: "mcr.microsoft.com/mssql/server"
+    environment:
+      SA_PASSWORD: "Password1*For2*Users3*Db"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    networks:
+      - mycouriernetwork
+
+networks:
+  mycouriernetwork:
+    driver: bridge

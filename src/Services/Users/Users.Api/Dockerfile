@@ -14,6 +14,8 @@ WORKDIR "/src/Services/Users/Users.Api"
 RUN dotnet build "Users.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
+RUN chmod +x ./entrypoint.sh
+CMD /bin/bash ./entrypoint.sh
 RUN dotnet publish "Users.Api.csproj" -c Release -o /app/publish
 
 FROM base AS final

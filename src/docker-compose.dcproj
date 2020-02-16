@@ -6,6 +6,8 @@
     <ProjectGuid>f5a2d8bd-8db2-4d9d-a0e5-83866dcd26fe</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/users</DockerServiceUrl>
+  </PropertyGroup>
+  <PropertyGroup>
     <DockerServiceName>users.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
