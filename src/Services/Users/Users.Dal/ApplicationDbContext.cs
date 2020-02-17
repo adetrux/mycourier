@@ -26,29 +26,33 @@ namespace Users.Dal
             modelBuilder.Entity<ApplicationUser>().HasData(
                 new ApplicationUser
                 {
-                    Id = "1",
-                    UserName = "Customer1",
+                    Email = "customer1@gmail.com",
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    UserName = "customer1@gmail.com",
                     FirstName = "A",
                     LastName = "A"
                 },
                 new ApplicationUser
                 {
-                    Id = "2",
-                    UserName = "Customer2",
+                    Email = "customer2@gmail.com",
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    UserName = "customer2@gmail.com",
                     FirstName = "B",
                     LastName = "B"
                 },
                 new ApplicationUser
                 {
-                    Id = "3",
-                    UserName = "Courier3",
+                    Email = "courier3@gmail.com",
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    UserName = "courier3@gmail.com",
                     FirstName = "C",
                     LastName = "C"
                 },
                 new ApplicationUser
                 {
-                    Id = "4",
-                    UserName = "Courier4",
+                    Email = "courier4@gmail.com",
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    UserName = "courier4@gmail.com",
                     FirstName = "D",
                     LastName = "D"
                 });

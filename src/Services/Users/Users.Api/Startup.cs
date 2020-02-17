@@ -33,11 +33,11 @@ namespace Users.Api
 
             services.AddTransient<IUsersRepository, UsersRepository>();
 
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("SqliteConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlite(Configuration.GetConnectionString("SqliteConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>(option =>
             {
@@ -62,10 +62,10 @@ namespace Users.Api
 
             var serviceProvider = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider;
             var context = serviceProvider.GetRequiredService<ApplicationDbContext>();
-            //if (!context.Database.EnsureCreated())
-            //{
-            //    context.Database.Migrate();
-            //}
+            if (!context.Database.EnsureCreated())
+            {
+                context.Database.Migrate();
+            }
 
             app.UseHttpsRedirection();
 
