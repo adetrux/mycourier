@@ -8,9 +8,9 @@ namespace Users.Dal
 {
     public class UsersRepository : IUsersRepository
     {
-        private readonly ApplicationDbContext _context;
+        private readonly UsersDbContext _context;
 
-        public UsersRepository(ApplicationDbContext context)
+        public UsersRepository(UsersDbContext context)
         {
             _context = context;
         }

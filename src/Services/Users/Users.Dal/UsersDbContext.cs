@@ -7,9 +7,9 @@ using Users.Domain;
 
 namespace Users.Dal
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class UsersDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        public UsersDbContext(DbContextOptions<UsersDbContext> options) : base(options)
         {
 
         }

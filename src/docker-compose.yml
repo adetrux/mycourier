@@ -1,6 +1,14 @@
 version: '3.4'
 
 services:
+  ocelot.apigateway:
+    image: ${DOCKER_REGISTRY-}ocelotapigateway
+    build:
+      context: .
+      dockerfile: ApiGateways/Ocelot.ApiGateway/Dockerfile
+    networks:
+      - mycouriernetwork
+
   users.api:
     image: ${DOCKER_REGISTRY-}usersapi
     build:
@@ -13,11 +21,15 @@ services:
     networks:
       - mycouriernetwork
 
-  ocelot.apigateway:
-    image: ${DOCKER_REGISTRY-}ocelotapigateway
+  routes.api:
+    image: ${DOCKER_REGISTRY-}routesapi
     build:
       context: .
-      dockerfile: ApiGateways/Ocelot.ApiGateway/Dockerfile
+      dockerfile: Services/Routes/Routes.Api/Dockerfile
+    ports:
+      - "8001:80"
+    depends_on:
+      - routesdb
     networks:
       - mycouriernetwork
 
@@ -31,6 +43,18 @@ services:
     networks:
       - mycouriernetwork
 
+  routesdb:
+    image: "mcr.microsoft.com/mssql/server"
+    environment:
+      SA_PASSWORD: "Password123RoutesDb"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1434:1433"
+    networks:
+      - mycouriernetwork
+
+
 networks:
   mycouriernetwork:
     driver: bridge
+
