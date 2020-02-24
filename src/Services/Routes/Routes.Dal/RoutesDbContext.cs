@@ -24,19 +24,6 @@ namespace Routes.Dal
 
         private void AddRoutes(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Route>()
-            //    .OwnsOne(r => r.StartLocation, b =>
-            //    {
-            //        b.Property(sl => sl.Latitude).HasColumnName("StartLocationLatitude");
-            //        b.Property(sl => sl.Longitude).HasColumnName("StartLocationLongitude");
-            //    });
-            //modelBuilder.Entity<Route>()
-            //    .OwnsOne(r => r.DestinationLocation, b =>
-            //    {
-            //        b.Property(dl => dl.Latitude).HasColumnName("DestinationLocationLongitude");
-            //        b.Property(dl => dl.Longitude).HasColumnName("DestinationLocationLongitude");
-            //    });
-
             modelBuilder.Entity<Route>().HasData(
                 new Route
                 {
@@ -49,6 +36,7 @@ namespace Routes.Dal
                     DestinationLocationLatitude = 10,
                     DestinationLocationLongitude = 10,
                     Accepted = false,
+                    Delivering = false,
                     Delivered = false,
                     CourierId = null,
                     CourierFirstName = null,

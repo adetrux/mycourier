@@ -17,6 +17,7 @@ namespace Routes.Domain
         public string CourierFirstName { get; set; }
         public string CourierLastName { get; set; }
         public bool Accepted { get; set; }
+        public bool Delivering { get; set; }
         public bool Delivered { get; set; }
     }
 }
