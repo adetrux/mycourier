@@ -7,8 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{BF486FD4-2E21-40C9-8B4A-E4E55695DDDC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{B0A419D1-040E-4AC5-B954-79F17B02F6DA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ocelot.ApiGateway", "ApiGateways\Ocelot.ApiGateway\Ocelot.ApiGateway.csproj", "{6CDB4F60-8A4B-413F-8E8F-7E413F8A49CF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Users.Api", "Services\Users\Users.Api\Users.Api.csproj", "{C72E06D9-1606-4298-9CCF-3BFF22D3ABA0}"
@@ -27,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Routes.Api", "Services\Rout
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Routes.Domain", "Services\Routes\Routes.Domain\Routes.Domain.csproj", "{6BC09B6D-1FEA-4BE9-9316-7A2C03FFD6E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Routes.Dal", "Services\Routes\Routes.Dal\Routes.Dal.csproj", "{AB3159DD-8EF9-42C4-BAA8-E42C32A3206F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Routes.Dal", "Services\Routes\Routes.Dal\Routes.Dal.csproj", "{AB3159DD-8EF9-42C4-BAA8-E42C32A3206F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

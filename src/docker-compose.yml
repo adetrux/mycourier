@@ -1,4 +1,4 @@
-version: '3.4'
+version: "3.4"
 
 services:
   ocelot.apigateway:
@@ -58,8 +58,16 @@ services:
     networks:
       - mycouriernetwork
 
+  mycourierweb:
+    container_name: mycourierweb
+    build:
+      context: Clients/Web/mycourierweb
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"
+    networks:
+      - mycouriernetwork
 
 networks:
   mycouriernetwork:
     driver: bridge
-
