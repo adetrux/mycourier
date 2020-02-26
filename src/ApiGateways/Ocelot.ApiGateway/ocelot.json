@@ -1,31 +1,50 @@
 {
   "ReRoutes": [
     {
-      "DownstreamPathTemplate": "/users/{catchAll}",
-      "DownstreamScheme": "https",
+      "DownstreamPathTemplate": "/users",
+      "DownstreamScheme": "http",
+      // "ServiceName":  "Users.Api",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7003
+          "Host": "Users.Api",
+          "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/users/{catchAll}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put" ]
+      "UpstreamPathTemplate": "/users",
+      "UpstreamHttpMethod": [ "Get" ]
+      //"RouteClaimsRequirement": {
+      //  "UserType": "registered"
+      //}
     },
     {
-      "DownstreamPathTemplate": "/routes/{catchAll}",
-      "DownstreamScheme": "https",
+      "DownstreamPathTemplate": "/routes",
+      "DownstreamScheme": "http",
+      "ServiceName": "Routes.Api",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7005
+          "Host": "Routes.Api",
+          "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/routes/{catchAll}",
+      "UpstreamPathTemplate": "/routes",
       "UpstreamHttpMethod": [ "Get" ]
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:7001"
+    //"BaseUrl": "https://localhost:7001",
+    //"DangerousAcceptAnyServerCertificateValidator": true,
+    //"ServiceDiscoveryProvider": {
+    //  "Host": "localhost",
+    //  "Port": 8500,
+    //  "Type": "Eureka"
+    //}
+    //"RequestIdKey": "OcRequestId",
+    //"AdministrationPath": "/administration",
+    //"UseServiceDiscovery": true,
+    //"ServiceDiscoveryProvider": {
+    //  "Type": "Eureka",
+    //  "Host": "localhost",
+    //  "Port": "8761"
+    //}
   }
 }

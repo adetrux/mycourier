@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Ocelot.DependencyInjection;
+using Ocelot.Provider.Consul;
 
 namespace Ocelot.ApiGateway
 {
@@ -32,6 +34,10 @@ namespace Ocelot.ApiGateway
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+                .ConfigureLogging(configureLogging =>
+                {
+                    configureLogging.AddConsole();
                 });
 
         //public static IWebHost BuildWebHost(string[] args)

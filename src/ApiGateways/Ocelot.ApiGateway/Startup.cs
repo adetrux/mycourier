@@ -29,6 +29,8 @@ namespace Ocelot.ApiGateway
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddOcelot().AddConsul();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +51,8 @@ namespace Ocelot.ApiGateway
             {
                 endpoints.MapControllers();
             });
+
+            app.UseOcelot().Wait();
         }
     }
 }
