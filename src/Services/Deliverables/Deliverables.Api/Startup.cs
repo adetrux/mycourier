@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Deliverables.Dal;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,9 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Routes.Dal;
 
-namespace Routes.Api
+namespace Deliverables.Api
 {
     public class Startup
     {
@@ -29,9 +29,9 @@ namespace Routes.Api
         {
             services.AddControllers();
 
-            services.AddTransient<IRoutesRepository, RoutesRepository>();
+            services.AddTransient<IDeliverablesRepository, DeliverablesRepository>();
 
-            services.AddDbContext<RoutesDbContext>(options =>
+            services.AddDbContext<DeliverablesDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
 
@@ -44,7 +44,7 @@ namespace Routes.Api
             }
 
             var serviceProvider = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider;
-            var context = serviceProvider.GetRequiredService<RoutesDbContext>();
+            var context = serviceProvider.GetRequiredService<DeliverablesDbContext>();
             if (!context.Database.EnsureCreated())
             {
                 context.Database.Migrate();

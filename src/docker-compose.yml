@@ -41,21 +41,21 @@ services:
       - "traefik.enable=true" # Enable publishing this service by Traefik
       - "traefik.http.routers.users.rule=PathPrefix(`/users`)" # Routing rule
 
-  routes.api:
-    image: ${DOCKER_REGISTRY-}routesapi
+  deliverables.api:
+    image: ${DOCKER_REGISTRY-}deliverablesapi
     build:
       context: .
-      dockerfile: Services/Routes/Routes.Api/Dockerfile
+      dockerfile: Services/Deliverables/Deliverables.Api/Dockerfile
     ports:
       - "7004:80"
       - "7005:443"
     depends_on:
-      - routesdb
+      - deliverablesdb
     networks:
       - mycouriernetwork
     labels:
       - "traefik.enable=true" # Enable publishing this service by Traefik
-      - "traefik.http.routers.routes.rule=PathPrefix(`/routes`)" # Routing rule
+      - "traefik.http.routers.deliverables.rule=PathPrefix(`/deliverables`)" # Routing rule
 
   usersdb:
     image: "mcr.microsoft.com/mssql/server"
@@ -67,10 +67,10 @@ services:
     networks:
       - mycouriernetwork
 
-  routesdb:
+  deliverablesdb:
     image: "mcr.microsoft.com/mssql/server"
     environment:
-      SA_PASSWORD: "Password123RoutesDb"
+      SA_PASSWORD: "Password123DeliverablesDb"
       ACCEPT_EULA: "Y"
     ports:
       - "1434:1433"
@@ -90,3 +90,4 @@ services:
 networks:
   mycouriernetwork:
     driver: bridge
+

@@ -1,31 +1,31 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Routes.Domain;
+﻿using Deliverables.Domain;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Routes.Dal
+namespace Deliverables.Dal
 {
-    public class RoutesDbContext : DbContext
+    public class DeliverablesDbContext : DbContext
     {
-        public RoutesDbContext(DbContextOptions<RoutesDbContext> options) : base(options)
+        public DeliverablesDbContext(DbContextOptions<DeliverablesDbContext> options) : base(options)
         {
 
         }
 
-        public DbSet<Route> Routes { get; set; }
+        public DbSet<Deliverable> Deliverables { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            AddRoutes(modelBuilder);
+            AddDeliverables(modelBuilder);
         }
 
-        private void AddRoutes(ModelBuilder modelBuilder)
+        private void AddDeliverables(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Route>().HasData(
-                new Route
+            modelBuilder.Entity<Deliverable>().HasData(
+                new Deliverable
                 {
                     Id = 1,
                     CostumerId = "23108de4-5574-4961-a949-50bf5579f150",

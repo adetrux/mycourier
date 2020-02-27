@@ -1,9 +1,8 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Routes.Domain
+namespace Deliverables.Domain
 {
-    public class Route
+    public class Deliverable
     {
         public int Id { get; set; }
         public string CostumerId { get; set; }

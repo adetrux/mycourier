@@ -6,11 +6,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Routes.Domain\Routes.Domain.csproj" />
+    <ProjectReference Include="..\Deliverables.Domain\Deliverables.Domain.csproj" />
   </ItemGroup>
 
 </Project>
