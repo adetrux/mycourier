@@ -5,10 +5,10 @@
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectGuid>f5a2d8bd-8db2-4d9d-a0e5-83866dcd26fe</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/weatherforecast</DockerServiceUrl>
+    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/users</DockerServiceUrl>
   </PropertyGroup>
   <PropertyGroup>
-    <DockerServiceName>ocelot.apigateway</DockerServiceName>
+    <DockerServiceName>users.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

@@ -1,14 +1,27 @@
 version: "3.4"
 
 services:
-  ocelot.apigateway:
-    image: ${DOCKER_REGISTRY-}ocelotapigateway
-    build:
-      context: .
-      dockerfile: ApiGateways/Ocelot.ApiGateway/Dockerfile
+  apigateway:
+    image: traefik:v2.1
     ports:
-      - "7000:80"
-      - "7001:443"
+      - "5080:80" # Port of the API Gateway, which will be the port behind which the system will be published
+      - "5081:443" # https
+      - "5088:8080" # Dashboard of Traefik for troubleshooting
+    command:
+      - "--api.insecure=true"
+      - "--api.dashboard=true"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+    labels:
+      - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:[a-z-.]+}`)"
+      - "traefik.http.routers.http_catchall.entrypoints: web"
+      - "traefik.http.routers.http_catchall.middlewares: https_redirect"
+      - "traefik.http.middlewares.https_redirect.redirectscheme.scheme: https"
+      - "traefik.http.middlewares.https_redirect.redirectscheme.permanent: true"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events (see .env file for Windows workaround to make this work)
     networks:
       - mycouriernetwork
 
@@ -24,6 +37,9 @@ services:
       - usersdb
     networks:
       - mycouriernetwork
+    labels:
+      - "traefik.enable=true" # Enable publishing this service by Traefik
+      - "traefik.http.routers.users.rule=PathPrefix(`/users`)" # Routing rule
 
   routes.api:
     image: ${DOCKER_REGISTRY-}routesapi
@@ -37,6 +53,9 @@ services:
       - routesdb
     networks:
       - mycouriernetwork
+    labels:
+      - "traefik.enable=true" # Enable publishing this service by Traefik
+      - "traefik.http.routers.routes.rule=PathPrefix(`/routes`)" # Routing rule
 
   usersdb:
     image: "mcr.microsoft.com/mssql/server"
