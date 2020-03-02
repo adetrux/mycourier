@@ -19,12 +19,6 @@ export function DeliverablesList() {
           />
         </ListItem>
       ))}
-      <ListItem>
-        <ListItemText primary="asd" />
-      </ListItem>
-      <ListItem>
-        <ListItemText primary="ert" />
-      </ListItem>
     </List>
   );
 }

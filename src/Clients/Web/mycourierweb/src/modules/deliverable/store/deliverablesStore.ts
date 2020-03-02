@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Deliverable } from "../model/deliverable";
+import { Deliverable } from "../models/deliverable";
 
 interface DeliverablesState {
   deliverables: Deliverable[];

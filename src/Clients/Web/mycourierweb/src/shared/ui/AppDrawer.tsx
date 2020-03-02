@@ -25,7 +25,7 @@ const useStyles = makeStyles({
 export function AppDrawer() {
   const classes = useStyles();
   return (
-    <Drawer open={true}>
+    <Drawer variant="permanent">
       <List className={classes.list}>
         <ListItem
           component={Link}
