@@ -6,6 +6,15 @@
     "tslint-config-prettier"
   ],
   "rules": {
+    "sort-imports-es6-autofix/sort-imports-es6": [
+      2,
+      {
+        "ignoreCase": false,
+        "ignoreMemberSort": false,
+        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
+      }
+    ],
+    "ordered-imports": true,
     "jsx-wrap-multiline": false,
     "object-literal-sort-keys": false,
     "no-debugger": false,
