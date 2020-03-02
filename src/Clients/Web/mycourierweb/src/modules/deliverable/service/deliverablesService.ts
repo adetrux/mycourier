@@ -1,11 +1,11 @@
 import axios, { AxiosResponse } from "axios";
 import { service } from "../../../shared/service/service";
-import { Deliverable, DeliverableToCreate } from "../models/deliverable";
+import { Deliverable } from "../models/deliverable";
 
 interface DeliverablesService {
   getDeliverables(): Promise<Deliverable[]>;
   createDeliverable(
-    deliverable: DeliverableToCreate
+    deliverable: Deliverable
   ): Promise<void | AxiosResponse<any>>;
 }
 
@@ -22,7 +22,7 @@ export const deliverablesService: DeliverablesService = {
       });
   },
 
-  async createDeliverable(deliverable: DeliverableToCreate) {
+  async createDeliverable(deliverable: Deliverable) {
     return axios
       .post(`${service.serviceBaseUrl}/create`, deliverable, {
         headers: {

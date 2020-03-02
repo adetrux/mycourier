@@ -70,7 +70,11 @@ export function CreateDeliverable() {
           label="Start"
           variant="outlined"
           type="number"
-          value={deliverableStart || ""}
+          value={
+            isNaN(deliverableStart) || deliverableStart === null
+              ? ""
+              : deliverableStart
+          }
           onChange={handleStartChange}
         />
         <TextField
@@ -78,7 +82,11 @@ export function CreateDeliverable() {
           label="End"
           variant="outlined"
           type="number"
-          value={deliverableEnd || ""}
+          value={
+            isNaN(deliverableEnd) || deliverableEnd === null
+              ? ""
+              : deliverableEnd
+          }
           onChange={handleEndChange}
         />
         <Button variant="contained" color="primary" onClick={createDeliverable}>
