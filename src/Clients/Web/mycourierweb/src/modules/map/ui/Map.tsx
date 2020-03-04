@@ -2,6 +2,7 @@ import { makeStyles, Theme } from "@material-ui/core";
 import React from "react";
 import { useSelector } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
+import { colors } from "../../../assets/colors";
 import { RootState } from "../../../shared/store/rootReducer";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -9,7 +10,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: "100vh",
     width: "80%",
     paddingLeft: theme.spacing(2),
-    backgroundColor: "#d67"
+    backgroundColor: colors.blue
   }
 }));
 

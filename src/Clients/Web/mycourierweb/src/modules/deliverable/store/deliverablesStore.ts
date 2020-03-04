@@ -33,6 +33,15 @@ const mockDeliverables: Deliverable[] = [
     accepted: true,
     delivering: true,
     delivered: false
+  },
+  {
+    id: "4",
+    name: "package4",
+    start: -12,
+    end: -6,
+    accepted: true,
+    delivering: true,
+    delivered: true
   }
 ];
 

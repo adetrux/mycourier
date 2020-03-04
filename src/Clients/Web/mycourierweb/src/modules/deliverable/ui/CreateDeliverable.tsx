@@ -1,19 +1,40 @@
-import { Button, makeStyles, TextField, Theme, Grid } from "@material-ui/core";
+import { Button, makeStyles, TextField, Theme } from "@material-ui/core";
 import React, { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { v4 } from "uuid";
+import { colors } from "../../../assets/colors";
 import { Deliverable } from "../models/deliverable";
 import { addDeliverable } from "../store/deliverablesStore";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  form: {
+  root: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    width: "100%"
+    width: "90%",
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    borderRadius: theme.spacing(2),
+    boxShadow: `0 0 5px ${colors.blue}`
   },
+  title: {},
   input: {
-    margin: theme.spacing(2)
+    // margin: theme.spacing(2),
+    // border: "0px",
+    borderRadius: theme.spacing(2),
+    backgroundColor: colors.lightBlue,
+    borderColor: `${colors.lightBlue} !important`
+  },
+  button: {
+    backgroundColor: colors.blue,
+    borderRadius: theme.spacing(2),
+    "&:hover": {
+      color: colors.blue,
+      backgroundColor: colors.lightBlue,
+      transition: "0.5s"
+    }
   }
 }));
 
@@ -59,14 +80,18 @@ export function CreateDeliverable() {
   }, [deliverableEnd, deliverableName, deliverableStart, dispatch]);
 
   return (
-    <div className={classes.form}>
+    <div className={classes.root}>
+      <div className={classes.title}>Create order</div>
       <TextField
         id="name"
         label="Name"
         variant="outlined"
         value={deliverableName || ""}
         onChange={handleNameChange}
-        className={classes.input}
+        margin="normal"
+        InputProps={{
+          className: classes.input
+        }}
       />
       <TextField
         id="start"
@@ -79,7 +104,10 @@ export function CreateDeliverable() {
             : deliverableStart
         }
         onChange={handleStartChange}
-        className={classes.input}
+        margin="normal"
+        InputProps={{
+          className: classes.input
+        }}
       />
       <TextField
         id="end"
@@ -90,9 +118,17 @@ export function CreateDeliverable() {
           isNaN(deliverableEnd) || deliverableEnd === null ? "" : deliverableEnd
         }
         onChange={handleEndChange}
-        className={classes.input}
+        margin="normal"
+        InputProps={{
+          className: classes.input
+        }}
       />
-      <Button variant="contained" color="primary" onClick={createDeliverable}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={createDeliverable}
+        className={classes.button}
+      >
         Create
       </Button>
     </div>
