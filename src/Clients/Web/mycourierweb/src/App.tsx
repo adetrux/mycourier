@@ -2,16 +2,24 @@ import { makeStyles } from "@material-ui/core";
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import { DeliverablesPage } from "./pages/deliverables/DeliverablesPage";
-import { TrackingPage } from "./pages/tracking/TrackingPage";
-import { AppDrawer } from "./shared/ui/AppDrawer";
+import { DeliverablesControlPanel } from "./modules/deliverable/ui/DeliverablesControlPanel";
+import { Map } from "./modules/map/ui/Map";
 
 const useStyles = makeStyles({
-  page: {
-    height: "100%",
+  root: {
+    flexGrow: 1,
     width: "100%",
-    position: "absolute",
-    paddingLeft: 200,
+    display: "flex",
+    flexDirection: "row"
+  },
+  controlPanel: {
+    width: "20%",
+    height: "100vh"
+  },
+  map: {
+    height: "100vh",
+    width: "80%",
+    padding: 0,
     backgroundColor: "#d67"
   }
 });
@@ -20,18 +28,16 @@ function App() {
   const classes = useStyles();
   return (
     <Router>
-      <div>
-        <AppDrawer />
+      <div className={classes.root}>
+        <div className={classes.controlPanel}>
+          <DeliverablesControlPanel />
+        </div>
 
         <Switch>
-          <Route path="/deliverables">
-            <div className={classes.page}>
-              <DeliverablesPage />
-            </div>
-          </Route>
-          <Route path="/tracks">
-            <div className={classes.page}>
-              <TrackingPage />
+          <Route path="/tracking/:id" component={Map} />
+          <Route path="/">
+            <div className={classes.map}>
+              <h1>No track selected</h1>
             </div>
           </Route>
         </Switch>

@@ -3,6 +3,7 @@ import { Deliverable } from "../models/deliverable";
 
 interface DeliverablesState {
   deliverables: Deliverable[];
+  selectedDeliverable: Deliverable;
 }
 
 const mockDeliverables: Deliverable[] = [
@@ -36,7 +37,8 @@ const mockDeliverables: Deliverable[] = [
 ];
 
 const initialDeliverablesState: DeliverablesState = {
-  deliverables: mockDeliverables
+  deliverables: mockDeliverables,
+  selectedDeliverable: ({} as unknown) as Deliverable
 };
 
 export const deliverables = createSlice({
@@ -47,10 +49,17 @@ export const deliverables = createSlice({
       state: DeliverablesState,
       action: PayloadAction<Deliverable>
     ) {
-      state.deliverables.push(action.payload);
+      state.deliverables.unshift(action.payload);
+      // TODO: call service
+    },
+    setSelectedDeliverable(
+      state: DeliverablesState,
+      action: PayloadAction<Deliverable>
+    ) {
+      state.selectedDeliverable = action.payload;
     }
   }
 });
 
-export const { addDeliverable } = deliverables.actions;
+export const { addDeliverable, setSelectedDeliverable } = deliverables.actions;
 export const deliverablesReducer = deliverables.reducer;

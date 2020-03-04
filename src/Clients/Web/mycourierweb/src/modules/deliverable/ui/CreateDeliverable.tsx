@@ -1,4 +1,4 @@
-import { Button, makeStyles, TextField, Theme } from "@material-ui/core";
+import { Button, makeStyles, TextField, Theme, Grid } from "@material-ui/core";
 import React, { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { v4 } from "uuid";
@@ -9,15 +9,18 @@ const useStyles = makeStyles((theme: Theme) => ({
   form: {
     display: "flex",
     flexDirection: "column",
-    width: "60%",
-    paddig: theme.spacing(1)
+    alignItems: "center",
+    width: "100%"
+  },
+  input: {
+    margin: theme.spacing(2)
   }
 }));
 
 export function CreateDeliverable() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [deliverableName, setDeliverableName] = useState("");
+  const [deliverableName, setDeliverableName] = useState();
   const [deliverableStart, setDeliverableStart] = useState();
   const [deliverableEnd, setDeliverableEnd] = useState();
 
@@ -56,43 +59,42 @@ export function CreateDeliverable() {
   }, [deliverableEnd, deliverableName, deliverableStart, dispatch]);
 
   return (
-    <div>
-      <form className={classes.form}>
-        <TextField
-          id="name"
-          label="Name"
-          variant="outlined"
-          value={deliverableName || ""}
-          onChange={handleNameChange}
-        />
-        <TextField
-          id="start"
-          label="Start"
-          variant="outlined"
-          type="number"
-          value={
-            isNaN(deliverableStart) || deliverableStart === null
-              ? ""
-              : deliverableStart
-          }
-          onChange={handleStartChange}
-        />
-        <TextField
-          id="end"
-          label="End"
-          variant="outlined"
-          type="number"
-          value={
-            isNaN(deliverableEnd) || deliverableEnd === null
-              ? ""
-              : deliverableEnd
-          }
-          onChange={handleEndChange}
-        />
-        <Button variant="contained" color="primary" onClick={createDeliverable}>
-          Create
-        </Button>
-      </form>
+    <div className={classes.form}>
+      <TextField
+        id="name"
+        label="Name"
+        variant="outlined"
+        value={deliverableName || ""}
+        onChange={handleNameChange}
+        className={classes.input}
+      />
+      <TextField
+        id="start"
+        label="Start"
+        variant="outlined"
+        type="number"
+        value={
+          isNaN(deliverableStart) || deliverableStart === null
+            ? ""
+            : deliverableStart
+        }
+        onChange={handleStartChange}
+        className={classes.input}
+      />
+      <TextField
+        id="end"
+        label="End"
+        variant="outlined"
+        type="number"
+        value={
+          isNaN(deliverableEnd) || deliverableEnd === null ? "" : deliverableEnd
+        }
+        onChange={handleEndChange}
+        className={classes.input}
+      />
+      <Button variant="contained" color="primary" onClick={createDeliverable}>
+        Create
+      </Button>
     </div>
   );
 }
