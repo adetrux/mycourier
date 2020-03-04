@@ -1,9 +1,9 @@
-import { makeStyles, Theme } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import React from "react";
 import { CreateDeliverable } from "./CreateDeliverable";
 import { DeliverablesList } from "./DeliverablesList";
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
     flexDirection: "column",
