@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Deliverable } from "../models/deliverable";
+import { deliverablesService } from "../service/deliverablesService";
 
 interface DeliverablesState {
   deliverables: Deliverable[];
@@ -46,7 +47,7 @@ const mockDeliverables: Deliverable[] = [
 ];
 
 const initialDeliverablesState: DeliverablesState = {
-  deliverables: mockDeliverables,
+  deliverables: [],
   selectedDeliverable: ({} as unknown) as Deliverable
 };
 
@@ -54,12 +55,18 @@ export const deliverables = createSlice({
   name: "deliverables",
   initialState: initialDeliverablesState,
   reducers: {
-    addDeliverable(
+    setDeliverables(
+      state: DeliverablesState,
+      action: PayloadAction<Deliverable[]>
+    ) {
+      state.deliverables = action.payload.slice(0);
+    },
+    createDeliverable(
       state: DeliverablesState,
       action: PayloadAction<Deliverable>
     ) {
       state.deliverables.unshift(action.payload);
-      // TODO: call service
+      deliverablesService.createDeliverable(action.payload);
     },
     setSelectedDeliverable(
       state: DeliverablesState,
@@ -70,5 +77,9 @@ export const deliverables = createSlice({
   }
 });
 
-export const { addDeliverable, setSelectedDeliverable } = deliverables.actions;
+export const {
+  setDeliverables,
+  createDeliverable,
+  setSelectedDeliverable
+} = deliverables.actions;
 export const deliverablesReducer = deliverables.reducer;

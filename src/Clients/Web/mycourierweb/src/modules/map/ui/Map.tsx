@@ -28,9 +28,9 @@ export function Map({ match }: MapProps) {
   return (
     <div className={classes.root}>
       <h1>Tracking package: {selectedDeliverable.name}</h1>
-      <h4>Tracking ID: {match.params.id}</h4>
-      <h4>Tracking starting location: {selectedDeliverable.start}</h4>
-      <h4>Tracking ending location: {selectedDeliverable.end}</h4>
+      <h4>Package ID: {match.params.id}</h4>
+      <h4>Starting location: {selectedDeliverable.start}</h4>
+      <h4>Destination location: {selectedDeliverable.end}</h4>
     </div>
   );
 }

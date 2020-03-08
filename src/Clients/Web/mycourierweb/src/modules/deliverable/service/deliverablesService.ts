@@ -12,7 +12,7 @@ interface DeliverablesService {
 export const deliverablesService: DeliverablesService = {
   async getDeliverables() {
     return axios
-      .get(`${service.serviceBaseUrl}`)
+      .get(`${service.deliverablesServiceApiUrl}`)
       .then(res => {
         return res.data as Deliverable[];
       })
@@ -24,10 +24,13 @@ export const deliverablesService: DeliverablesService = {
 
   async createDeliverable(deliverable: Deliverable) {
     return axios
-      .post(`${service.serviceBaseUrl}/create`, deliverable, {
+      .post(`${service.deliverablesServiceApiUrl}/create`, deliverable, {
         headers: {
           Authorization: "token"
         }
+      })
+      .then(() => {
+        console.log("deliverableService: deliverable created");
       })
       .catch(err => {
         console.log(err);

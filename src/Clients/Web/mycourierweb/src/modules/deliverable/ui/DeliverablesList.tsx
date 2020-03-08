@@ -6,13 +6,17 @@ import {
   makeStyles,
   Theme
 } from "@material-ui/core";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { colors } from "../../../assets/colors";
 import { RootState } from "../../../shared/store/rootReducer";
 import { Deliverable } from "../models/deliverable";
-import { setSelectedDeliverable } from "../store/deliverablesStore";
+import { deliverablesService } from "../service/deliverablesService";
+import {
+  setDeliverables,
+  setSelectedDeliverable
+} from "../store/deliverablesStore";
 import {
   DeliverableState,
   getDeliverableState
@@ -53,6 +57,16 @@ export function DeliverablesList() {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    async function fetchDeliverables() {
+      const fetchedDeliverables = await deliverablesService.getDeliverables();
+      dispatch(setDeliverables(fetchedDeliverables));
+    }
+
+    fetchDeliverables();
+  }, [dispatch]);
+
   const deliverables = useSelector(
     (state: RootState) => state.deliverablesReducer.deliverables
   );

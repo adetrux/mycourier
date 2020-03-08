@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { v4 } from "uuid";
 import { colors } from "../../../assets/colors";
 import { Deliverable } from "../models/deliverable";
-import { addDeliverable } from "../store/deliverablesStore";
+import { createDeliverable } from "../store/deliverablesStore";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -21,11 +21,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   title: {},
   input: {
-    // margin: theme.spacing(2),
-    // border: "0px",
     borderRadius: theme.spacing(2),
-    backgroundColor: colors.lightBlue,
-    borderColor: `${colors.lightBlue} !important`
+    backgroundColor: colors.lightBlue
   },
   button: {
     backgroundColor: colors.blue,
@@ -63,7 +60,7 @@ export function CreateDeliverable() {
     setDeliverableEnd(parseInt(event.target.value, 10));
   };
 
-  const createDeliverable = useCallback(() => {
+  const handleCreateDeliverable = useCallback(() => {
     const deliverableToAdd: Deliverable = {
       id: v4(),
       name: deliverableName,
@@ -73,7 +70,7 @@ export function CreateDeliverable() {
       delivering: false,
       delivered: false
     };
-    dispatch(addDeliverable(deliverableToAdd));
+    dispatch(createDeliverable(deliverableToAdd));
     setDeliverableName("");
     setDeliverableStart("");
     setDeliverableEnd("");
@@ -126,7 +123,7 @@ export function CreateDeliverable() {
       <Button
         variant="contained"
         color="primary"
-        onClick={createDeliverable}
+        onClick={handleCreateDeliverable}
         className={classes.button}
       >
         Create
