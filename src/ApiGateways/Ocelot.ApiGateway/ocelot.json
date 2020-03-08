@@ -17,16 +17,16 @@
       //}
     },
     {
-      "DownstreamPathTemplate": "/routes",
+      "DownstreamPathTemplate": "/deliverables",
       "DownstreamScheme": "http",
       "ServiceName": "Routes.Api",
       "DownstreamHostAndPorts": [
         {
-          "Host": "Routes.Api",
+          "Host": "Deliverables.Api",
           "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/routes",
+      "UpstreamPathTemplate": "/deliverables",
       "UpstreamHttpMethod": [ "Get" ]
     }
   ],
