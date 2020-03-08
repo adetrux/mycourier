@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Deliverables.Api.Requests;
 using Deliverables.Dal;
 using Deliverables.Domain;
 using Microsoft.AspNetCore.Http;
@@ -21,9 +22,16 @@ namespace Deliverables.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Deliverable>> GetDeliverables()
+        public ActionResult<IEnumerable<Deliverable>> GetDeliverables()
         {
-            return await _deliverablesRepository.GetDeliverables().ConfigureAwait(false);
+            return _deliverablesRepository.GetDeliverables().Result.ToArray();
+        }
+
+        [HttpPost("create")]
+        public async Task CreateDeliverable([FromBody] CreateDeliverable createDeliverable)
+        {
+            Deliverable deliverable = Mapper.Mapper.CreateDeliverableToDeliverable(createDeliverable);
+            await _deliverablesRepository.CreateDeliverable(deliverable);
         }
     }
 }

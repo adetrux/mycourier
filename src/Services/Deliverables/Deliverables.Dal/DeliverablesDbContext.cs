@@ -19,9 +19,10 @@ namespace Deliverables.Dal
         {
             base.OnModelCreating(modelBuilder);
 
-            AddDeliverables(modelBuilder);
+            // AddDeliverables(modelBuilder);
         }
 
+        /*
         private void AddDeliverables(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Deliverable>().HasData(
@@ -42,6 +43,6 @@ namespace Deliverables.Dal
                     CourierFirstName = null,
                     CourierLastName = null
                 });
-        }
+        }*/
     }
 }

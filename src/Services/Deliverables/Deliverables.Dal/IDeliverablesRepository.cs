@@ -9,5 +9,6 @@ namespace Deliverables.Dal
     public interface IDeliverablesRepository
     {
         Task<IEnumerable<Deliverable>> GetDeliverables();
+        Task CreateDeliverable(Deliverable deliverable);
     }
 }

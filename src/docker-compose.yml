@@ -17,9 +17,6 @@ services:
     labels:
       - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:[a-z-.]+}`)"
       - "traefik.http.routers.http_catchall.entrypoints: web"
-      - "traefik.http.routers.http_catchall.middlewares: https_redirect"
-      - "traefik.http.middlewares.https_redirect.redirectscheme.scheme: https"
-      - "traefik.http.middlewares.https_redirect.redirectscheme.permanent: true"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events (see .env file for Windows workaround to make this work)
     networks:
@@ -64,6 +61,8 @@ services:
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
+    volumes:
+      - mycourier-users-data:/var/opt/mssql/usersdb
     networks:
       - mycouriernetwork
 
@@ -74,18 +73,16 @@ services:
       ACCEPT_EULA: "Y"
     ports:
       - "1434:1433"
+    volumes:
+      - mycourier-deliverables-data:/var/opt/mssql/deliverablesdb
     networks:
       - mycouriernetwork
 
-  mycourierweb:
-    container_name: mycourierweb
-    build:
-      context: Clients/Web/mycourierweb
-      dockerfile: Dockerfile
-    ports:
-      - "8000:80"
-    networks:
-      - mycouriernetwork
+volumes:
+  mycourier-users-data:
+    driver: local
+  mycourier-deliverables-data:
+    driver: local
 
 networks:
   mycouriernetwork:

@@ -29,6 +29,19 @@ namespace Users.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("MyPolicy", builder =>
+                {
+                    builder.WithOrigins(
+                        "http://localhost:8000",
+                        "http://localhost:3000")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+                });
+            });
+
             services.AddControllers();
 
             services.AddTransient<IUsersRepository, UsersRepository>();
@@ -67,7 +80,9 @@ namespace Users.Api
                 context.Database.Migrate();
             }
 
-            app.UseHttpsRedirection();
+            app.UseCors("MyPolicy");
+
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
 

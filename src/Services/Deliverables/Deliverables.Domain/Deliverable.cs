@@ -1,13 +1,16 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Deliverables.Domain
 {
     public class Deliverable
     {
-        public int Id { get; set; }
-        public string CostumerId { get; set; }
-        public string CostumerFirstName { get; set; }
-        public string CostumerLastName { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string CustomerId { get; set; }
+        public string CustomerFirstName { get; set; }
+        public string CustomerLastName { get; set; }
         public int StartLocationLatitude { get; set; }
         public int StartLocationLongitude { get; set; }
         public int DestinationLocationLatitude { get; set; }

@@ -18,5 +18,11 @@ namespace Deliverables.Dal
         {
             return await _context.Deliverables.ToListAsync();
         }
+
+        public async Task CreateDeliverable(Deliverable deliverable)
+        {
+            await _context.Deliverables.AddAsync(deliverable);
+            await _context.SaveChangesAsync();
+        }
     }
 }
