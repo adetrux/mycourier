@@ -1,11 +1,12 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { colors } from "../../res/colors";
+import { strings } from "../../res/strings";
 
 export function Header() {
   return (
     <View style={styles.header}>
-      <Text style={styles.title}>Deliverables</Text>
+      <Text style={styles.title}>{strings.title}</Text>
     </View>
   );
 }
