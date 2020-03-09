@@ -32,8 +32,9 @@ namespace Deliverables.Api
                 options.AddPolicy("MyPolicy", builder =>
                 {
                     builder.WithOrigins(
-                        "http://localhost:8000",
-                        "http://localhost:3000")
+                        "http://localhost:8000", // web in docker
+                        "http://localhost:3000", // web
+                        "http://192.168.0.80:19000") // mobile
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials();
