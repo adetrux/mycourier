@@ -63,6 +63,7 @@ export function CreateDeliverable() {
   const handleCreateDeliverable = useCallback(() => {
     const deliverableToAdd: Deliverable = {
       id: v4(),
+      createdTime: Date.now(),
       name: deliverableName,
       start: deliverableStart,
       end: deliverableEnd,

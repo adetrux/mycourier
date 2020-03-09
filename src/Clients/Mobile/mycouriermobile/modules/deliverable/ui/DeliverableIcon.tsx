@@ -1,6 +1,5 @@
 import React from "react";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { colors } from "../../../res/colors";
 import { Deliverable } from "../models/deliverable";
 import {
   DeliverableState,

@@ -8,6 +8,7 @@ namespace Deliverables.Api.Requests
     public class CreateDeliverable
     {
         public string Id { get; set; }
+        public long CreatedTime { get; set; }
         public string Name { get; set; }
         public int Start { get; set; }
         public int End { get; set; }

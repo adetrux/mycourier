@@ -14,6 +14,7 @@ namespace Deliverables.Api.Mapper
             return new Deliverable
             {
                 Id = createDeliverable.Id,
+                CreatedTime = createDeliverable.CreatedTime,
                 Name = createDeliverable.Name,
                 CustomerId = "1",
                 CustomerFirstName = "Bob",

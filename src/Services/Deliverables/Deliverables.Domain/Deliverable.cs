@@ -7,6 +7,7 @@ namespace Deliverables.Domain
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public string Id { get; set; }
+        public long CreatedTime { get; set; }
         public string Name { get; set; }
         public string CustomerId { get; set; }
         public string CustomerFirstName { get; set; }

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Deliverables.Dal
@@ -16,7 +17,7 @@ namespace Deliverables.Dal
         }
         public async Task<IEnumerable<Deliverable>> GetDeliverables()
         {
-            return await _context.Deliverables.ToListAsync();
+            return await _context.Deliverables.OrderByDescending(d => d.CreatedTime).ToListAsync();
         }
 
         public async Task CreateDeliverable(Deliverable deliverable)
