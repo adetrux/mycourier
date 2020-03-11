@@ -31,10 +31,12 @@ namespace Deliverables.Api
             {
                 options.AddPolicy("MyPolicy", builder =>
                 {
-                    builder.WithOrigins(
+                    builder
+                    .WithOrigins(
                         "http://localhost:8000", // web in docker
                         "http://localhost:3000", // web
                         "http://192.168.0.80:19000") // mobile
+                    // .SetIsOriginAllowed(_ => true)
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials();
