@@ -38,9 +38,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 export function CreateDeliverable() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [deliverableName, setDeliverableName] = useState();
-  const [deliverableStart, setDeliverableStart] = useState();
-  const [deliverableEnd, setDeliverableEnd] = useState();
+  const [deliverableName, setDeliverableName] = useState<string>("");
+  const [deliverableStart, setDeliverableStart] = useState<number | null>(null);
+  const [deliverableEnd, setDeliverableEnd] = useState<number | null>(null);
 
   const handleNameChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -65,16 +65,16 @@ export function CreateDeliverable() {
       id: v4(),
       createdTime: Date.now(),
       name: deliverableName,
-      start: deliverableStart,
-      end: deliverableEnd,
+      start: deliverableStart!,
+      end: deliverableEnd!,
       accepted: false,
       delivering: false,
       delivered: false
     };
     dispatch(createDeliverable(deliverableToAdd));
     setDeliverableName("");
-    setDeliverableStart("");
-    setDeliverableEnd("");
+    setDeliverableStart(null);
+    setDeliverableEnd(null);
   }, [deliverableEnd, deliverableName, deliverableStart, dispatch]);
 
   return (
@@ -97,7 +97,7 @@ export function CreateDeliverable() {
         variant="outlined"
         type="number"
         value={
-          isNaN(deliverableStart) || deliverableStart === null
+          isNaN(deliverableStart!) || deliverableStart === null
             ? ""
             : deliverableStart
         }
@@ -113,7 +113,9 @@ export function CreateDeliverable() {
         variant="outlined"
         type="number"
         value={
-          isNaN(deliverableEnd) || deliverableEnd === null ? "" : deliverableEnd
+          isNaN(deliverableEnd!) || deliverableEnd === null
+            ? ""
+            : deliverableEnd
         }
         onChange={handleEndChange}
         margin="normal"
