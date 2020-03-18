@@ -62,12 +62,6 @@ namespace Deliverables.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseWebSockets(new WebSocketOptions()
-            {
-                KeepAliveInterval = TimeSpan.FromSeconds(120),
-                ReceiveBufferSize = 4 * 1024
-            });
-
             var serviceProvider = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider;
             var context = serviceProvider.GetRequiredService<DeliverablesDbContext>();
             if (!context.Database.EnsureCreated())
