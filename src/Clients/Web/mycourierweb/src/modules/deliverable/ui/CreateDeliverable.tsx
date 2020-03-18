@@ -3,6 +3,8 @@ import React, { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { v4 } from "uuid";
 import { colors } from "../../../assets/colors";
+import { useConnection } from "../../../shared/hub/hub";
+import { hubUrl } from "../../../shared/service/url";
 import { Deliverable } from "../models/deliverable";
 import { createDeliverable } from "../store/deliverablesStore";
 
@@ -38,6 +40,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 export function CreateDeliverable() {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const hubConnection = useConnection(hubUrl.deliverableHubUrl);
+
   const [deliverableName, setDeliverableName] = useState<string>("");
   const [deliverableStart, setDeliverableStart] = useState<number | null>(null);
   const [deliverableEnd, setDeliverableEnd] = useState<number | null>(null);
@@ -72,10 +76,17 @@ export function CreateDeliverable() {
       delivered: false
     };
     dispatch(createDeliverable(deliverableToAdd));
+    hubConnection.invoke("CreateDeliverable", deliverableToAdd);
     setDeliverableName("");
     setDeliverableStart(null);
     setDeliverableEnd(null);
-  }, [deliverableEnd, deliverableName, deliverableStart, dispatch]);
+  }, [
+    deliverableEnd,
+    deliverableName,
+    deliverableStart,
+    dispatch,
+    hubConnection
+  ]);
 
   return (
     <div className={classes.root}>

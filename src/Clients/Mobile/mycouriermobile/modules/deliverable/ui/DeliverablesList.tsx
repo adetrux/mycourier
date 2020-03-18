@@ -6,6 +6,8 @@ import {
   StyleSheet
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { useConnection } from "../../../shared/hub/hub";
+import { hubUrl } from "../../../shared/service/url";
 import { RootState } from "../../../shared/store/rootReducer";
 import { NoAvailableDeliverable } from "../../../shared/ui/NoAvailableDeliverable";
 import { Deliverable } from "../models/deliverable";
@@ -15,6 +17,14 @@ import { DeliverablesListItem } from "./DeliverablesListItem";
 
 export function DeliverablesList() {
   const dispatch = useDispatch();
+  const deliverables = useSelector(
+    (state: RootState) => state.deliverablesReducer.deliverables
+  );
+  const hubConnection = useConnection(hubUrl.deliverableHubUrl);
+  hubConnection.on("DeliverableCreated", (deliverable: Deliverable) =>
+    dispatch(setDeliverables([deliverable, ...deliverables]))
+  );
+
   const [refreshing, setRefreshing] = useState(false);
 
   const fetchDeliverables = async () => {
@@ -25,11 +35,7 @@ export function DeliverablesList() {
 
   useEffect(() => {
     fetchDeliverables();
-  }, [dispatch]);
-
-  const deliverables = useSelector(
-    (state: RootState) => state.deliverablesReducer.deliverables
-  );
+  }, []);
 
   const renderItem = (deliverableItemInfo: ListRenderItemInfo<Deliverable>) => (
     <DeliverablesListItem deliverable={deliverableItemInfo.item} />

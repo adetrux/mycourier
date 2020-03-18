@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Deliverables.Api.Hubs;
 using Deliverables.Dal;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -43,6 +44,8 @@ namespace Deliverables.Api
                 });
             });
 
+            services.AddSignalR();
+
             services.AddControllers();
 
             services.AddTransient<IDeliverablesRepository, DeliverablesRepository>();
@@ -58,6 +61,12 @@ namespace Deliverables.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseWebSockets(new WebSocketOptions()
+            {
+                KeepAliveInterval = TimeSpan.FromSeconds(120),
+                ReceiveBufferSize = 4 * 1024
+            });
 
             var serviceProvider = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider;
             var context = serviceProvider.GetRequiredService<DeliverablesDbContext>();
@@ -77,6 +86,7 @@ namespace Deliverables.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<DeliverableHub>("/deliverables/deliverableHub");
             });
         }
     }

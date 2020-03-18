@@ -1,5 +1,5 @@
 import axios from "axios";
-import { service } from "../../../shared/service/service";
+import { serviceUrl } from "../../../shared/service/url";
 import { Deliverable } from "../models/deliverable";
 
 interface DeliverablesService {
@@ -9,7 +9,7 @@ interface DeliverablesService {
 export const deliverablesService: DeliverablesService = {
   async getDeliverables() {
     return axios
-      .get(`${service.deliverablesServiceApiUrl}`)
+      .get(`${serviceUrl.deliverablesServiceApiUrl}`)
       .then(res => {
         return res.data as Deliverable[];
       })
