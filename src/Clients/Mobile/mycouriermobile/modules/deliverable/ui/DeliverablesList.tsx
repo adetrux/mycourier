@@ -9,11 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useConnection } from "../../../shared/hub/hub";
 import { hubUrl } from "../../../shared/service/url";
 import { RootState } from "../../../shared/store/rootReducer";
-import { NoAvailableDeliverable } from "../../../shared/ui/NoAvailableDeliverable";
 import { Deliverable } from "../models/deliverable";
 import { deliverablesService } from "../service/deliverablesService";
 import { setDeliverables } from "../store/deliverablesStore";
 import { DeliverablesListItem } from "./DeliverablesListItem";
+import { NoAvailableDeliverable } from "./NoAvailableDeliverable";
 
 export function DeliverablesList() {
   const dispatch = useDispatch();
