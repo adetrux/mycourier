@@ -6,7 +6,10 @@ import { colors } from "../../../assets/colors";
 import { useConnection } from "../../../shared/hub/hub";
 import { hubUrl } from "../../../shared/service/url";
 import { Deliverable } from "../models/deliverable";
-import { createDeliverable } from "../store/deliverablesStore";
+import {
+  createDeliverable,
+  updateDeliverable
+} from "../store/deliverablesStore";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -41,6 +44,13 @@ export function CreateDeliverable() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const hubConnection = useConnection(hubUrl.deliverableHubUrl);
+  hubConnection.on("DeliverableCreated", () => {
+    console.log("deliverable created");
+  });
+
+  hubConnection.on("DeliverableUpdated", (deliverable: Deliverable) => {
+    dispatch(updateDeliverable(deliverable));
+  });
 
   const [deliverableName, setDeliverableName] = useState<string>("");
   const [deliverableStart, setDeliverableStart] = useState<number | null>(null);
@@ -65,18 +75,23 @@ export function CreateDeliverable() {
   };
 
   const handleCreateDeliverable = useCallback(() => {
-    const deliverableToAdd: Deliverable = {
+    const deliverableToCreate: Deliverable = {
       id: v4(),
       createdTime: Date.now(),
       name: deliverableName,
-      start: deliverableStart!,
-      end: deliverableEnd!,
+      customerId: "1",
+      customerFirstName: "Bob",
+      customerLastName: "Sbdy",
+      startLocationLatitude: deliverableStart!,
+      startLocationLongitude: deliverableStart!,
+      destinationLocationLatitude: deliverableEnd!,
+      destinationLocationLongitude: deliverableEnd!,
       accepted: false,
       delivering: false,
       delivered: false
     };
-    dispatch(createDeliverable(deliverableToAdd));
-    hubConnection.invoke("CreateDeliverable", deliverableToAdd);
+    dispatch(createDeliverable(deliverableToCreate));
+    hubConnection.invoke("CreateDeliverable", deliverableToCreate);
     setDeliverableName("");
     setDeliverableStart(null);
     setDeliverableEnd(null);

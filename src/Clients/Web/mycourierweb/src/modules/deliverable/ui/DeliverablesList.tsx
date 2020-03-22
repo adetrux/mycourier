@@ -8,7 +8,6 @@ import {
 } from "@material-ui/core";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { colors } from "../../../assets/colors";
 import { RootState } from "../../../shared/store/rootReducer";
 import { Deliverable } from "../models/deliverable";
@@ -17,10 +16,7 @@ import {
   setDeliverables,
   setSelectedDeliverable
 } from "../store/deliverablesStore";
-import {
-  DeliverableState,
-  getDeliverableState
-} from "../store/deliverableState";
+import { getDeliverableState } from "../store/deliverableState";
 import { DeliverableIcon } from "./DeliverableIcon";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -55,7 +51,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export function DeliverablesList() {
   const classes = useStyles();
-  const history = useHistory();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -74,9 +69,8 @@ export function DeliverablesList() {
   const handleItemClick = useCallback(
     (deliverable: Deliverable) => () => {
       dispatch(setSelectedDeliverable(deliverable));
-      history.push(`/tracking/${deliverable.id}`);
     },
-    [dispatch, history]
+    [dispatch]
   );
 
   return (
@@ -94,7 +88,7 @@ export function DeliverablesList() {
             </ListItemAvatar>
             <ListItemText
               primary={deliverable.name}
-              secondary={getSecondaryText(deliverable)}
+              secondary={getDeliverableState(deliverable).name}
               className={classes.listItemText}
             />
           </ListItem>
@@ -103,17 +97,3 @@ export function DeliverablesList() {
     </div>
   );
 }
-
-const getSecondaryText = (deliverable: Deliverable) => {
-  const deliverableState = getDeliverableState(deliverable);
-  switch (deliverableState) {
-    case DeliverableState.PLACED:
-      return "Placed";
-    case DeliverableState.ACCEPTED:
-      return "Accepted";
-    case DeliverableState.DELIVERING:
-      return "Delivering";
-    case DeliverableState.DELIVERED:
-      return "Delivered";
-  }
-};

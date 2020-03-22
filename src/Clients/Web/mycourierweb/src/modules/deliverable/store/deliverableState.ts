@@ -1,24 +1,28 @@
 import { Deliverable } from "../models/deliverable";
 
-export enum DeliverableState {
+export enum DeliverableStateType {
   PLACED,
   ACCEPTED,
   DELIVERING,
   DELIVERED
 }
 
+interface DeliverableState {
+  type: DeliverableStateType;
+  name: string;
+}
 export const getDeliverableState = ({
   accepted,
   delivering,
   delivered
-}: Deliverable) => {
+}: Deliverable): DeliverableState => {
   if (!accepted) {
-    return DeliverableState.PLACED;
+    return { type: DeliverableStateType.PLACED, name: "Placed" };
   } else if (accepted && !delivering) {
-    return DeliverableState.ACCEPTED;
+    return { type: DeliverableStateType.ACCEPTED, name: "Accepted" };
   } else if (delivering && !delivered) {
-    return DeliverableState.DELIVERING;
+    return { type: DeliverableStateType.DELIVERING, name: "Delivering" };
   } else {
-    return DeliverableState.DELIVERED;
+    return { type: DeliverableStateType.DELIVERED, name: "Delivered" };
   }
 };

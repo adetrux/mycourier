@@ -1,21 +1,40 @@
-import React from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { HubConnection } from "@microsoft/signalr";
+import React, { useState } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors } from "../../../res/colors";
 import { Deliverable } from "../models/deliverable";
+import { DeliverableActionModal } from "./DeliverableActionModal";
 import { DeliverableIcon } from "./DeliverableIcon";
 
 interface DeliverablesListItemProps {
   deliverable: Deliverable;
+  hubConnection: HubConnection;
 }
 
 export function DeliverablesListItem({
-  deliverable
+  deliverable,
+  hubConnection
 }: DeliverablesListItemProps) {
+  const [modalOpened, setModalOpened] = useState<boolean>(false);
+
+  const handlePressListItem = () => {
+    setModalOpened(true);
+  };
+
   return (
-    <TouchableOpacity style={styles.item}>
-      <Text>{deliverable.name}</Text>
-      <DeliverableIcon deliverable={deliverable} />
-    </TouchableOpacity>
+    <View>
+      <DeliverableActionModal
+        modalOpened={modalOpened}
+        setModalOpened={setModalOpened}
+        deliverable={deliverable}
+        hubConnection={hubConnection}
+      />
+
+      <TouchableOpacity onPress={handlePressListItem} style={styles.item}>
+        <Text>{deliverable.name}</Text>
+        <DeliverableIcon deliverable={deliverable} />
+      </TouchableOpacity>
+    </View>
   );
 }
 

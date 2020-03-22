@@ -28,10 +28,15 @@ namespace Deliverables.Api.Controllers
         }
 
         [HttpPost("create")]
-        public async Task CreateDeliverable([FromBody] CreateDeliverable createDeliverable)
+        public async Task CreateDeliverable([FromBody] Deliverable deliverable)
         {
-            Deliverable deliverable = Mapper.Mapper.CreateDeliverableToDeliverable(createDeliverable);
             await _deliverablesRepository.CreateDeliverable(deliverable);
+        }
+
+        [HttpPut("{id}")]
+        public async Task UpdateDeliverable(string id, [FromBody] Deliverable deliverable)
+        {
+            await _deliverablesRepository.UpdateDeliverable(id, deliverable);
         }
     }
 }

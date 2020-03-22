@@ -26,9 +26,22 @@ export const deliverables = createSlice({
       action: PayloadAction<Deliverable>
     ) {
       state.selectedDeliverable = action.payload;
+    },
+    updateDeliverable(
+      state: DeliverablesState,
+      action: PayloadAction<Deliverable>
+    ) {
+      const index = state.deliverables.findIndex(
+        d => d.id === action.payload.id
+      );
+      state.deliverables[index] = action.payload;
     }
   }
 });
 
-export const { setDeliverables, setSelectedDeliverable } = deliverables.actions;
+export const {
+  setDeliverables,
+  setSelectedDeliverable,
+  updateDeliverable
+} = deliverables.actions;
 export const deliverablesReducer = deliverables.reducer;

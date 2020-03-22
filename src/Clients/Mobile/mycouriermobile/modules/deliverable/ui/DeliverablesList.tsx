@@ -21,9 +21,14 @@ export function DeliverablesList() {
     (state: RootState) => state.deliverablesReducer.deliverables
   );
   const hubConnection = useConnection(hubUrl.deliverableHubUrl);
-  hubConnection.on("DeliverableCreated", (deliverable: Deliverable) =>
-    dispatch(setDeliverables([deliverable, ...deliverables]))
-  );
+  hubConnection.on("DeliverableCreated", (deliverable: Deliverable) => {
+    console.log("on");
+    dispatch(setDeliverables([deliverable, ...deliverables]));
+  });
+
+  hubConnection.on("DeliverableUpdated", () => {
+    console.log("deliverable updated");
+  });
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -35,10 +40,13 @@ export function DeliverablesList() {
 
   useEffect(() => {
     fetchDeliverables();
-  }, []);
+  }, [dispatch]);
 
   const renderItem = (deliverableItemInfo: ListRenderItemInfo<Deliverable>) => (
-    <DeliverablesListItem deliverable={deliverableItemInfo.item} />
+    <DeliverablesListItem
+      deliverable={deliverableItemInfo.item}
+      hubConnection={hubConnection}
+    />
   );
 
   const handleRefresh = useCallback(() => {

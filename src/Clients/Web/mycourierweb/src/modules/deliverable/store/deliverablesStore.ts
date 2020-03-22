@@ -34,6 +34,15 @@ export const deliverables = createSlice({
       action: PayloadAction<Deliverable>
     ) {
       state.selectedDeliverable = action.payload;
+    },
+    updateDeliverable(
+      state: DeliverablesState,
+      action: PayloadAction<Deliverable>
+    ) {
+      const index = state.deliverables.findIndex(
+        d => d.id === action.payload.id
+      );
+      state.deliverables[index] = action.payload;
     }
   }
 });
@@ -41,6 +50,7 @@ export const deliverables = createSlice({
 export const {
   setDeliverables,
   createDeliverable,
-  setSelectedDeliverable
+  setSelectedDeliverable,
+  updateDeliverable
 } = deliverables.actions;
 export const deliverablesReducer = deliverables.reducer;

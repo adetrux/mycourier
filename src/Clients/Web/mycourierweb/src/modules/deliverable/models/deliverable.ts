@@ -2,8 +2,13 @@ export interface Deliverable {
   id: string;
   createdTime: number;
   name: string;
-  start: number;
-  end: number;
+  customerId: string;
+  customerFirstName: string;
+  customerLastName: string;
+  startLocationLatitude: number;
+  startLocationLongitude: number;
+  destinationLocationLatitude: number;
+  destinationLocationLongitude: number;
   accepted: boolean;
   delivering: boolean;
   delivered: boolean;

@@ -5,7 +5,7 @@ import WhereToVoteRounded from "@material-ui/icons/WhereToVoteRounded";
 import React from "react";
 import { Deliverable } from "../models/deliverable";
 import {
-  DeliverableState,
+  DeliverableStateType,
   getDeliverableState
 } from "../store/deliverableState";
 
@@ -15,14 +15,14 @@ interface DeliverableIconProps {
 
 export function DeliverableIcon({ deliverable }: DeliverableIconProps) {
   const deliverableState = getDeliverableState(deliverable);
-  switch (deliverableState) {
-    case DeliverableState.PLACED:
+  switch (deliverableState.type) {
+    case DeliverableStateType.PLACED:
       return <PlaceRounded style={{ color: "grey" }} />;
-    case DeliverableState.ACCEPTED:
+    case DeliverableStateType.ACCEPTED:
       return <PersonPinCircleRounded style={{ color: "#1565c0" }} />;
-    case DeliverableState.DELIVERING:
+    case DeliverableStateType.DELIVERING:
       return <LocalShippingRounded style={{ color: "orange" }} />;
-    case DeliverableState.DELIVERED:
+    case DeliverableStateType.DELIVERED:
       return <WhereToVoteRounded style={{ color: "green" }} />;
   }
 }

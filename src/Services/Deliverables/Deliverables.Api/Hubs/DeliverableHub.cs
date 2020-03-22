@@ -10,10 +10,14 @@ namespace Deliverables.Api.Hubs
 {
     public class DeliverableHub : Hub
     {
-        public async Task CreateDeliverable(CreateDeliverable createDeliverable)
+        public async Task CreateDeliverable(Deliverable deliverable)
         {
-            Deliverable deliverable = Mapper.Mapper.CreateDeliverableToDeliverable(createDeliverable);
-            await Clients.All.SendAsync("DeliverableCreated", deliverable);
+            await Clients.Others.SendAsync("DeliverableCreated", deliverable);
+        }
+
+        public async Task UpdateDeliverable(Deliverable deliverable)
+        {
+            await Clients.Others.SendAsync("DeliverableUpdated", deliverable);
         }
     }
 }

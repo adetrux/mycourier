@@ -25,5 +25,15 @@ namespace Deliverables.Dal
             await _context.Deliverables.AddAsync(deliverable);
             await _context.SaveChangesAsync();
         }
+
+        public async Task UpdateDeliverable(string id, Deliverable deliverable)
+        {
+            var deliverableToUpdate = await _context.Deliverables.SingleOrDefaultAsync(d => d.Id.Equals(id));
+            if (deliverableToUpdate != null)
+            {
+                _context.Entry(deliverableToUpdate).CurrentValues.SetValues(deliverable);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }
