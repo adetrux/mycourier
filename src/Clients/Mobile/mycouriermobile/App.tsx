@@ -1,10 +1,10 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Provider } from "react-redux";
-import { DeliverablesList } from "./modules/deliverable/ui/DeliverablesList";
-import { colors } from "./res/colors";
-import { store } from "./shared/store/store";
-import { Header } from "./shared/ui/Header";
+import { DeliverablesList } from "./src/modules/deliverable/ui/DeliverablesList";
+import { colors } from "./src/res/colors";
+import { store } from "./src/shared/store/store";
+import { Header } from "./src/shared/ui/Header";
 
 export default function App() {
   return (
