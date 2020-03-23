@@ -29,28 +29,37 @@ export function DeliverableActionModal({
 
   const handlePressButton = useCallback(
     (type: DeliverableStateType) => () => {
-      const deliverableToUpdate: Deliverable = {
-        ...deliverable,
-        accepted: type === DeliverableStateType.PLACED ? false : true,
-        delivering:
-          type === DeliverableStateType.PLACED ||
-          type === DeliverableStateType.ACCEPTED
-            ? false
-            : true,
-        delivered:
-          type === DeliverableStateType.PLACED ||
+      if (deliverableActualState.type !== type) {
+        const deliverableToUpdate: Deliverable = {
+          ...deliverable,
+          accepted: type === DeliverableStateType.PLACED ? false : true,
+          delivering:
+            type === DeliverableStateType.PLACED ||
+            type === DeliverableStateType.ACCEPTED
+              ? false
+              : true,
+          delivered:
+            type === DeliverableStateType.PLACED ||
+            type === DeliverableStateType.ACCEPTED ||
+            type === DeliverableStateType.DELIVERING
+              ? false
+              : true
+        };
+
+        dispatch(updateDeliverable(deliverableToUpdate));
+        hubConnection.invoke("UpdateDeliverable", deliverableToUpdate);
+        deliverablesService.updateDeliverable(
+          deliverableToUpdate.id,
+          deliverableToUpdate
+        );
+
+        if (
           type === DeliverableStateType.ACCEPTED ||
           type === DeliverableStateType.DELIVERING
-            ? false
-            : true
-      };
-
-      dispatch(updateDeliverable(deliverableToUpdate));
-      hubConnection.invoke("UpdateDeliverable", deliverableToUpdate);
-      deliverablesService.updateDeliverable(
-        deliverableToUpdate.id,
-        deliverableToUpdate
-      );
+        ) {
+          // TODO: start sending coordinates
+        }
+      }
 
       setModalOpened(false);
     },
