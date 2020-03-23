@@ -19,7 +19,6 @@ export function Map() {
     (state: RootState) => state.deliverablesReducer.selectedDeliverable
   );
 
-  console.log(selectedDeliverable);
   return (
     <div className={classes.map}>
       <h1>Tracking package: {selectedDeliverable.name}</h1>
