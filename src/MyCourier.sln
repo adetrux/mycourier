@@ -21,11 +21,15 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deliverables", "Deliverables", "{B96FCE7B-C032-41B4-80EF-38390E4F39DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deliverables.Api", "Services\Deliverables\Deliverables.Api\Deliverables.Api.csproj", "{6F629AB6-E988-46C4-99DE-2B2A967F0B86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deliverables.Api", "Services\Deliverables\Deliverables.Api\Deliverables.Api.csproj", "{6F629AB6-E988-46C4-99DE-2B2A967F0B86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deliverables.Domain", "Services\Deliverables\Deliverables.Domain\Deliverables.Domain.csproj", "{BA038499-9153-4F73-ACE9-FDD47A3CB216}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deliverables.Domain", "Services\Deliverables\Deliverables.Domain\Deliverables.Domain.csproj", "{BA038499-9153-4F73-ACE9-FDD47A3CB216}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deliverables.Dal", "Services\Deliverables\Deliverables.Dal\Deliverables.Dal.csproj", "{BBD36B43-299E-4693-B0C7-D3FDEFCF5700}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deliverables.Dal", "Services\Deliverables\Deliverables.Dal\Deliverables.Dal.csproj", "{BBD36B43-299E-4693-B0C7-D3FDEFCF5700}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tracking", "Tracking", "{B242FDFD-5976-4060-9469-A9B79013B7B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tracking.Api", "Services\Tracking\Tracking.Api\Tracking.Api.csproj", "{BD50E3B4-8EF4-45ED-B7F2-6B595092AF26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +69,10 @@ Global
 		{BBD36B43-299E-4693-B0C7-D3FDEFCF5700}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBD36B43-299E-4693-B0C7-D3FDEFCF5700}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBD36B43-299E-4693-B0C7-D3FDEFCF5700}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD50E3B4-8EF4-45ED-B7F2-6B595092AF26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD50E3B4-8EF4-45ED-B7F2-6B595092AF26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD50E3B4-8EF4-45ED-B7F2-6B595092AF26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD50E3B4-8EF4-45ED-B7F2-6B595092AF26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,6 +87,8 @@ Global
 		{6F629AB6-E988-46C4-99DE-2B2A967F0B86} = {B96FCE7B-C032-41B4-80EF-38390E4F39DC}
 		{BA038499-9153-4F73-ACE9-FDD47A3CB216} = {B96FCE7B-C032-41B4-80EF-38390E4F39DC}
 		{BBD36B43-299E-4693-B0C7-D3FDEFCF5700} = {B96FCE7B-C032-41B4-80EF-38390E4F39DC}
+		{B242FDFD-5976-4060-9469-A9B79013B7B7} = {BF486FD4-2E21-40C9-8B4A-E4E55695DDDC}
+		{BD50E3B4-8EF4-45ED-B7F2-6B595092AF26} = {B242FDFD-5976-4060-9469-A9B79013B7B7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F8E2AD97-6965-4125-ABFB-81066E152AFE}

@@ -54,6 +54,20 @@ services:
       - "traefik.enable=true" # Enable publishing this service by Traefik
       - "traefik.http.routers.deliverables.rule=PathPrefix(`/deliverables`)" # Routing rule
 
+  tracking.api:
+    image: ${DOCKER_REGISTRY-}trackingapi
+    build:
+      context: .
+      dockerfile: Services/Tracking/Tracking.Api/Dockerfile
+    ports:
+      - "7006:80"
+      - "7007:443"
+    networks:
+      - mycouriernetwork
+    labels:
+      - "traefik.enable=true" # Enable publishing this service by Traefik
+      - "traefik.http.routers.tracking.rule=PathPrefix(`/tracking`)" # Routing rule
+
   usersdb:
     image: "mcr.microsoft.com/mssql/server"
     environment:
@@ -87,4 +101,5 @@ volumes:
 networks:
   mycouriernetwork:
     driver: bridge
+
 

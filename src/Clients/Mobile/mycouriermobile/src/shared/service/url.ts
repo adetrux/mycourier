@@ -19,15 +19,18 @@ export const serviceUrl = {
 // };
 
 export const hubUrl = {
-  deliverableHubUrl: "http://192.168.0.80:5080/deliverables/deliverableHub"
+  deliverableHubUrl: "http://192.168.0.80:5080/deliverables/deliverableHub",
+  trackingHubUrl: "http://192.168.0.80:5080/tracking/trackingHub"
 };
 
 // -- Q
 // export const hubUrl = {
-//   deliverableHubUrl: "http://152.66.169.224:5080/deliverables/deliverableHub"
+//   deliverableHubUrl: "http://152.66.169.224:5080/deliverables/deliverableHub",
+//   trackingHubUrl: "http://152.66.169.224:5080/tracking/trackingHub"
 // };
 
 // -- I
 // export const hubUrl = {
-//   deliverableHubUrl: "http://152.66.158.220:5080/deliverables/deliverableHub"
+//   deliverableHubUrl: "http://152.66.158.220:5080/deliverables/deliverableHub",
+//   trackingHubUrl: "http://152.66.158.220:5080/tracking/trackingHub"
 // };

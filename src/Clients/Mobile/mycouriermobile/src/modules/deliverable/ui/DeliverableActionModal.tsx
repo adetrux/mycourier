@@ -3,6 +3,10 @@ import React, { useCallback } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { useDispatch } from "react-redux";
+import {
+  setDestinationLatitude,
+  setDestinationLongitude
+} from "../../tracking/store/trackingStore";
 import { Deliverable } from "../models/deliverable";
 import { deliverablesService } from "../service/deliverablesService";
 import { updateDeliverable } from "../store/deliverablesStore";
@@ -15,14 +19,14 @@ interface DeliverableActionModalProps {
   modalOpened: boolean;
   setModalOpened(value: React.SetStateAction<boolean>): void;
   deliverable: Deliverable;
-  hubConnection: HubConnection;
+  deliverableHubConnection: HubConnection;
 }
 
 export function DeliverableActionModal({
   modalOpened,
   setModalOpened,
   deliverable,
-  hubConnection
+  deliverableHubConnection
 }: DeliverableActionModalProps) {
   const dispatch = useDispatch();
   const deliverableActualState = getDeliverableState(deliverable);
@@ -47,23 +51,33 @@ export function DeliverableActionModal({
         };
 
         dispatch(updateDeliverable(deliverableToUpdate));
-        hubConnection.invoke("UpdateDeliverable", deliverableToUpdate);
+        deliverableHubConnection.invoke(
+          "UpdateDeliverable",
+          deliverableToUpdate
+        );
         deliverablesService.updateDeliverable(
           deliverableToUpdate.id,
           deliverableToUpdate
         );
 
-        if (
-          type === DeliverableStateType.ACCEPTED ||
-          type === DeliverableStateType.DELIVERING
-        ) {
-          // TODO: start sending coordinates
+        if (type === DeliverableStateType.ACCEPTED) {
+          dispatch(setDestinationLatitude(deliverable.startLocationLatitude));
+          dispatch(setDestinationLongitude(deliverable.startLocationLongitude));
+        }
+
+        if (type === DeliverableStateType.DELIVERING) {
+          dispatch(
+            setDestinationLatitude(deliverable.destinationLocationLatitude)
+          );
+          dispatch(
+            setDestinationLongitude(deliverable.destinationLocationLongitude)
+          );
         }
       }
 
       setModalOpened(false);
     },
-    [deliverable, dispatch, hubConnection]
+    [deliverable, dispatch, deliverableHubConnection]
   );
 
   return (

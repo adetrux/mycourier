@@ -5,5 +5,6 @@ export const serviceUrl = {
 };
 
 export const hubUrl = {
-  deliverableHubUrl: "http://localhost:5080/deliverables/deliverableHub"
+  deliverableHubUrl: "http://localhost:5080/deliverables/deliverableHub",
+  trackingHubUrl: "http://localhost:5080/tracking/trackingHub"
 };

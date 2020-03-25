@@ -6,6 +6,7 @@ import {
   makeStyles,
   Theme
 } from "@material-ui/core";
+import { HubConnection } from "@microsoft/signalr";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { colors } from "../../../assets/colors";
@@ -14,7 +15,8 @@ import { Deliverable } from "../models/deliverable";
 import { deliverablesService } from "../service/deliverablesService";
 import {
   setDeliverables,
-  setSelectedDeliverable
+  setSelectedDeliverable,
+  updateDeliverable
 } from "../store/deliverablesStore";
 import { getDeliverableState } from "../store/deliverableState";
 import { DeliverableIcon } from "./DeliverableIcon";
@@ -49,9 +51,22 @@ const useStyles = makeStyles((theme: Theme) => ({
   listItemText: {}
 }));
 
-export function DeliverablesList() {
+interface DeliverablesListProps {
+  deliverableHubConnection: HubConnection;
+}
+
+export function DeliverablesList({
+  deliverableHubConnection
+}: DeliverablesListProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
+
+  deliverableHubConnection.on(
+    "DeliverableUpdated",
+    (deliverable: Deliverable) => {
+      dispatch(updateDeliverable(deliverable));
+    }
+  );
 
   useEffect(() => {
     async function fetchDeliverables() {

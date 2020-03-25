@@ -1,15 +1,11 @@
 import { Button, makeStyles, TextField, Theme } from "@material-ui/core";
+import { HubConnection } from "@microsoft/signalr";
 import React, { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { v4 } from "uuid";
 import { colors } from "../../../assets/colors";
-import { useConnection } from "../../../shared/hub/hub";
-import { hubUrl } from "../../../shared/service/url";
 import { Deliverable } from "../models/deliverable";
-import {
-  createDeliverable,
-  updateDeliverable
-} from "../store/deliverablesStore";
+import { createDeliverable } from "../store/deliverablesStore";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -40,16 +36,18 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-export function CreateDeliverable() {
+interface CreateDeliverableProps {
+  deliverableHubConnection: HubConnection;
+}
+
+export function CreateDeliverable({
+  deliverableHubConnection
+}: CreateDeliverableProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const hubConnection = useConnection(hubUrl.deliverableHubUrl);
-  hubConnection.on("DeliverableCreated", () => {
-    console.log("deliverable created");
-  });
 
-  hubConnection.on("DeliverableUpdated", (deliverable: Deliverable) => {
-    dispatch(updateDeliverable(deliverable));
+  deliverableHubConnection.on("DeliverableCreated", () => {
+    console.log("deliverable created");
   });
 
   const [deliverableName, setDeliverableName] = useState<string>("");
@@ -91,7 +89,7 @@ export function CreateDeliverable() {
       delivered: false
     };
     dispatch(createDeliverable(deliverableToCreate));
-    hubConnection.invoke("CreateDeliverable", deliverableToCreate);
+    deliverableHubConnection.invoke("CreateDeliverable", deliverableToCreate);
     setDeliverableName("");
     setDeliverableStart(null);
     setDeliverableEnd(null);
@@ -100,7 +98,7 @@ export function CreateDeliverable() {
     deliverableName,
     deliverableStart,
     dispatch,
-    hubConnection
+    deliverableHubConnection
   ]);
 
   return (

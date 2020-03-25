@@ -8,12 +8,12 @@ import { DeliverableIcon } from "./DeliverableIcon";
 
 interface DeliverablesListItemProps {
   deliverable: Deliverable;
-  hubConnection: HubConnection;
+  deliverableHubConnection: HubConnection;
 }
 
 export function DeliverablesListItem({
   deliverable,
-  hubConnection
+  deliverableHubConnection
 }: DeliverablesListItemProps) {
   const [modalOpened, setModalOpened] = useState<boolean>(false);
 
@@ -27,7 +27,7 @@ export function DeliverablesListItem({
         modalOpened={modalOpened}
         setModalOpened={setModalOpened}
         deliverable={deliverable}
-        hubConnection={hubConnection}
+        deliverableHubConnection={deliverableHubConnection}
       />
 
       <TouchableOpacity onPress={handlePressListItem} style={styles.item}>

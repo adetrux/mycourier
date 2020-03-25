@@ -1,6 +1,6 @@
 import * as signalR from "@microsoft/signalr";
 
-export function useConnection(hubUrl: string) {
+export function useHubConnection(hubUrl: string) {
   const hubConnection = new signalR.HubConnectionBuilder()
     .withUrl(hubUrl, {
       skipNegotiation: true,
