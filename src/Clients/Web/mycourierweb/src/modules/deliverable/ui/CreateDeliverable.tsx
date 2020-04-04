@@ -7,8 +7,16 @@ import { colors } from "../../../assets/colors";
 import { Deliverable } from "../models/deliverable";
 import { createDeliverable } from "../store/deliverablesStore";
 
+const inputVariant = "outlined";
+const inputValue = (value: number | null) =>
+  isNaN(value!) || value === null ? "" : value;
+
+const inputProps = {
+  step: 0.001,
+};
+
 const useStyles = makeStyles((theme: Theme) => ({
-  root: {
+  panel: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -18,12 +26,21 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
     borderRadius: theme.spacing(2),
-    boxShadow: `0 0 5px ${colors.blue}`
+    boxShadow: `0 0 5px ${colors.blue}`,
   },
   title: {},
+  inputRow: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
+  },
   input: {
     borderRadius: theme.spacing(2),
-    backgroundColor: colors.lightBlue
+    backgroundColor: colors.lightBlue,
+    marginRight: theme.spacing(1),
+    marginLeft: theme.spacing(1),
   },
   button: {
     backgroundColor: colors.blue,
@@ -31,9 +48,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&:hover": {
       color: colors.blue,
       backgroundColor: colors.lightBlue,
-      transition: "0.5s"
-    }
-  }
+      transition: "0.5s",
+    },
+  },
 }));
 
 interface CreateDeliverableProps {
@@ -41,18 +58,31 @@ interface CreateDeliverableProps {
 }
 
 export function CreateDeliverable({
-  deliverableHubConnection
+  deliverableHubConnection,
 }: CreateDeliverableProps) {
   const classes = useStyles();
+  const InputProps = {
+    className: classes.input,
+  };
   const dispatch = useDispatch();
 
   deliverableHubConnection.on("DeliverableCreated", () => {
     console.log("deliverable created");
   });
 
-  const [deliverableName, setDeliverableName] = useState<string>("");
-  const [deliverableStart, setDeliverableStart] = useState<number | null>(null);
-  const [deliverableEnd, setDeliverableEnd] = useState<number | null>(null);
+  const [deliverableName, setDeliverableName] = useState<string>("Test");
+  const [deliverableStartLatitude, setDeliverableStartLatitude] = useState<
+    number | null
+  >(47.515249);
+  const [deliverableStartLongitude, setDeliverableStartLongitude] = useState<
+    number | null
+  >(19.147091);
+  const [deliverableEndLatitude, setDeliverableEndLatitude] = useState<
+    number | null
+  >(47.505249);
+  const [deliverableEndLongitude, setDeliverableEndLongitude] = useState<
+    number | null
+  >(19.157091);
 
   const handleNameChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -60,16 +90,28 @@ export function CreateDeliverable({
     setDeliverableName(event.target.value);
   };
 
-  const handleStartChange = (
+  const handleStartLatitudeChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    setDeliverableStart(parseInt(event.target.value, 10));
+    setDeliverableStartLatitude(parseFloat(event.target.value));
   };
 
-  const handleEndChange = (
+  const handleStartLongitudeChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    setDeliverableEnd(parseInt(event.target.value, 10));
+    setDeliverableStartLongitude(parseFloat(event.target.value));
+  };
+
+  const handleEndLatitudeChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    setDeliverableEndLatitude(parseFloat(event.target.value));
+  };
+
+  const handleEndLongitudeChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    setDeliverableEndLongitude(parseFloat(event.target.value));
   };
 
   const handleCreateDeliverable = useCallback(() => {
@@ -80,73 +122,93 @@ export function CreateDeliverable({
       customerId: "1",
       customerFirstName: "Bob",
       customerLastName: "Sbdy",
-      startLocationLatitude: deliverableStart!,
-      startLocationLongitude: deliverableStart!,
-      destinationLocationLatitude: deliverableEnd!,
-      destinationLocationLongitude: deliverableEnd!,
+      startLocationLatitude: deliverableStartLatitude!,
+      startLocationLongitude: deliverableStartLongitude!,
+      destinationLocationLatitude: deliverableEndLatitude!,
+      destinationLocationLongitude: deliverableEndLongitude!,
       accepted: false,
       delivering: false,
-      delivered: false
+      delivered: false,
     };
     dispatch(createDeliverable(deliverableToCreate));
     deliverableHubConnection.invoke("CreateDeliverable", deliverableToCreate);
     setDeliverableName("");
-    setDeliverableStart(null);
-    setDeliverableEnd(null);
+    setDeliverableStartLatitude(null);
+    setDeliverableStartLongitude(null);
+    setDeliverableEndLatitude(null);
+    setDeliverableEndLongitude(null);
   }, [
-    deliverableEnd,
     deliverableName,
-    deliverableStart,
+    deliverableStartLatitude,
+    deliverableStartLongitude,
+    deliverableEndLatitude,
+    deliverableEndLongitude,
     dispatch,
-    deliverableHubConnection
+    deliverableHubConnection,
   ]);
 
   return (
-    <div className={classes.root}>
+    <div className={classes.panel}>
       <div className={classes.title}>Create order</div>
-      <TextField
-        id="name"
-        label="Name"
-        variant="outlined"
-        value={deliverableName || ""}
-        onChange={handleNameChange}
-        margin="normal"
-        InputProps={{
-          className: classes.input
-        }}
-      />
-      <TextField
-        id="start"
-        label="Start"
-        variant="outlined"
-        type="number"
-        value={
-          isNaN(deliverableStart!) || deliverableStart === null
-            ? ""
-            : deliverableStart
-        }
-        onChange={handleStartChange}
-        margin="normal"
-        InputProps={{
-          className: classes.input
-        }}
-      />
-      <TextField
-        id="end"
-        label="End"
-        variant="outlined"
-        type="number"
-        value={
-          isNaN(deliverableEnd!) || deliverableEnd === null
-            ? ""
-            : deliverableEnd
-        }
-        onChange={handleEndChange}
-        margin="normal"
-        InputProps={{
-          className: classes.input
-        }}
-      />
+      <div className={classes.inputRow}>
+        <TextField
+          id="name"
+          label="Name"
+          variant={inputVariant}
+          value={deliverableName || ""}
+          onChange={handleNameChange}
+          margin="normal"
+          InputProps={InputProps}
+        />
+      </div>
+      <div className={classes.inputRow}>
+        <TextField
+          id="startLat"
+          label="Start lat"
+          variant={inputVariant}
+          type="number"
+          value={inputValue(deliverableStartLatitude)}
+          onChange={handleStartLatitudeChange}
+          margin="normal"
+          InputProps={InputProps}
+          inputProps={inputProps}
+        />
+        <TextField
+          id="startLong"
+          label="Start long"
+          variant={inputVariant}
+          type="number"
+          value={inputValue(deliverableStartLongitude)}
+          onChange={handleStartLongitudeChange}
+          margin="normal"
+          InputProps={InputProps}
+          inputProps={inputProps}
+        />
+      </div>
+      <div className={classes.inputRow}>
+        <TextField
+          id="endLat"
+          label="End lat"
+          variant={inputVariant}
+          type="number"
+          value={inputValue(deliverableEndLatitude)}
+          onChange={handleEndLatitudeChange}
+          margin="normal"
+          InputProps={InputProps}
+          inputProps={inputProps}
+        />
+        <TextField
+          id="endLong"
+          label="End long"
+          variant="outlined"
+          type="number"
+          value={inputValue(deliverableEndLongitude)}
+          onChange={handleEndLongitudeChange}
+          margin="normal"
+          InputProps={InputProps}
+          inputProps={inputProps}
+        />
+      </div>
       <Button
         variant="contained"
         color="primary"

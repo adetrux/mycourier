@@ -4,7 +4,7 @@ import {
   ListItemAvatar,
   ListItemText,
   makeStyles,
-  Theme
+  Theme,
 } from "@material-ui/core";
 import { HubConnection } from "@microsoft/signalr";
 import React, { useCallback, useEffect } from "react";
@@ -16,13 +16,13 @@ import { deliverablesService } from "../service/deliverablesService";
 import {
   setDeliverables,
   setSelectedDeliverable,
-  updateDeliverable
+  updateDeliverable,
 } from "../store/deliverablesStore";
 import { getDeliverableState } from "../store/deliverableState";
 import { DeliverableIcon } from "./DeliverableIcon";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  root: {
+  panel: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -32,23 +32,23 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
     borderRadius: theme.spacing(2),
-    boxShadow: `0 0 5px ${colors.blue}`
+    boxShadow: `0 0 5px ${colors.blue}`,
   },
   title: {
-    marginBottom: theme.spacing(2)
+    marginBottom: theme.spacing(2),
   },
   list: {
     padding: 0,
-    width: "100%"
+    width: "100%",
   },
   listItem: {
     cursor: "pointer",
     "&:hover": {
       backgroundColor: colors.lightBlue,
-      transition: "0.5s"
-    }
+      transition: "0.5s",
+    },
   },
-  listItemText: {}
+  listItemText: {},
 }));
 
 interface DeliverablesListProps {
@@ -56,15 +56,26 @@ interface DeliverablesListProps {
 }
 
 export function DeliverablesList({
-  deliverableHubConnection
+  deliverableHubConnection,
 }: DeliverablesListProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
+
+  const selectedDeliverable = useSelector(
+    (state: RootState) => state.deliverablesReducer.selectedDeliverable
+  );
+
+  const deliverables = useSelector(
+    (state: RootState) => state.deliverablesReducer.deliverables
+  );
 
   deliverableHubConnection.on(
     "DeliverableUpdated",
     (deliverable: Deliverable) => {
       dispatch(updateDeliverable(deliverable));
+      if (selectedDeliverable.id === deliverable.id) {
+        dispatch(setSelectedDeliverable(deliverable));
+      }
     }
   );
 
@@ -77,10 +88,6 @@ export function DeliverablesList({
     fetchDeliverables();
   }, [dispatch]);
 
-  const deliverables = useSelector(
-    (state: RootState) => state.deliverablesReducer.deliverables
-  );
-
   const handleItemClick = useCallback(
     (deliverable: Deliverable) => () => {
       dispatch(setSelectedDeliverable(deliverable));
@@ -89,10 +96,10 @@ export function DeliverablesList({
   );
 
   return (
-    <div className={classes.root}>
+    <div className={classes.panel}>
       <div className={classes.title}>Orders</div>
       <List className={classes.list}>
-        {deliverables.map(deliverable => (
+        {deliverables.map((deliverable) => (
           <ListItem
             key={deliverable.id}
             onClick={handleItemClick(deliverable)}

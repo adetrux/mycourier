@@ -9,7 +9,7 @@ interface DeliverablesState {
 
 const initialDeliverablesState: DeliverablesState = {
   deliverables: [],
-  selectedDeliverable: ({} as unknown) as Deliverable
+  selectedDeliverable: ({} as unknown) as Deliverable,
 };
 
 export const deliverables = createSlice({
@@ -28,6 +28,7 @@ export const deliverables = createSlice({
     ) {
       state.deliverables.unshift(action.payload);
       deliverablesService.createDeliverable(action.payload);
+      state.selectedDeliverable = state.deliverables[0];
     },
     setSelectedDeliverable(
       state: DeliverablesState,
@@ -40,17 +41,17 @@ export const deliverables = createSlice({
       action: PayloadAction<Deliverable>
     ) {
       const index = state.deliverables.findIndex(
-        d => d.id === action.payload.id
+        (d) => d.id === action.payload.id
       );
       state.deliverables[index] = action.payload;
-    }
-  }
+    },
+  },
 });
 
 export const {
   setDeliverables,
   createDeliverable,
   setSelectedDeliverable,
-  updateDeliverable
+  updateDeliverable,
 } = deliverables.actions;
 export const deliverablesReducer = deliverables.reducer;

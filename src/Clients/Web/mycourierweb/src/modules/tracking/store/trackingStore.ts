@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialLatitude = 0;
-const initialLongitude = 0;
+const initialLatitude = 47.505249;
+const initialLongitude = 19.137091;
 
 interface TrackingState {
   actualLatitude: number;

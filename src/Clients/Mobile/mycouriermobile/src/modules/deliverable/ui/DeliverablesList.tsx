@@ -31,7 +31,7 @@ export function DeliverablesList() {
   deliverableHubConnection.on(
     "DeliverableCreated",
     (deliverable: Deliverable) => {
-      console.log("on");
+      console.log("DeliverableCreated", deliverable);
       dispatch(setDeliverables([deliverable, ...deliverables]));
     }
   );

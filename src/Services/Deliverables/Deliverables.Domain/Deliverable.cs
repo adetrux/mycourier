@@ -12,10 +12,10 @@ namespace Deliverables.Domain
         public string CustomerId { get; set; }
         public string CustomerFirstName { get; set; }
         public string CustomerLastName { get; set; }
-        public int StartLocationLatitude { get; set; }
-        public int StartLocationLongitude { get; set; }
-        public int DestinationLocationLatitude { get; set; }
-        public int DestinationLocationLongitude { get; set; }
+        public double StartLocationLatitude { get; set; }
+        public double StartLocationLongitude { get; set; }
+        public double DestinationLocationLatitude { get; set; }
+        public double DestinationLocationLongitude { get; set; }
         public string CourierId { get; set; }
         public string CourierFirstName { get; set; }
         public string CourierLastName { get; set; }

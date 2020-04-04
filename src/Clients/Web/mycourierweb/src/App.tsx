@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 import React from "react";
 import "./App.css";
 import { DeliverablesControlPanel } from "./modules/deliverable/ui/DeliverablesControlPanel";
-import { Map } from "./modules/map/ui/Map";
+import { MapView } from "./modules/map/ui/MapView";
 
 const useStyles = makeStyles({
   root: {
@@ -24,7 +24,7 @@ function App() {
       <div className={classes.controlPanel}>
         <DeliverablesControlPanel />
       </div>
-      <Map />
+      <MapView />
     </div>
   );
 }

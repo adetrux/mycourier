@@ -3,10 +3,6 @@ import React, { useCallback } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { useDispatch } from "react-redux";
-import {
-  setDestinationLatitude,
-  setDestinationLongitude
-} from "../../tracking/store/trackingStore";
 import { Deliverable } from "../models/deliverable";
 import { deliverablesService } from "../service/deliverablesService";
 import { updateDeliverable } from "../store/deliverablesStore";
@@ -59,20 +55,6 @@ export function DeliverableActionModal({
           deliverableToUpdate.id,
           deliverableToUpdate
         );
-
-        if (type === DeliverableStateType.ACCEPTED) {
-          dispatch(setDestinationLatitude(deliverable.startLocationLatitude));
-          dispatch(setDestinationLongitude(deliverable.startLocationLongitude));
-        }
-
-        if (type === DeliverableStateType.DELIVERING) {
-          dispatch(
-            setDestinationLatitude(deliverable.destinationLocationLatitude)
-          );
-          dispatch(
-            setDestinationLongitude(deliverable.destinationLocationLongitude)
-          );
-        }
       }
 
       setModalOpened(false);
