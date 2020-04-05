@@ -28,7 +28,7 @@ export function DeliverablesControlPanel() {
   const trackingHubConnection = useHubConnection(hubUrl.trackingHubUrl);
   trackingHubConnection.on(
     "ActualLocationSent",
-    (actualLatitude, actualLongitude) => {
+    (actualLatitude?: number, actualLongitude?: number) => {
       console.log("actual latitude: ", actualLatitude);
       console.log("actual longitude: ", actualLongitude);
       dispatch(setActualLatitude(actualLatitude));

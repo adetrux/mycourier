@@ -8,7 +8,7 @@ namespace Tracking.Api.Hubs
 {
     public class TrackingHub : Hub
     {
-        public async Task SendActualLocation(double actualLatitude, double actualLongitude)
+        public async Task SendActualLocation(double? actualLatitude, double? actualLongitude)
         {
             await Clients.Others.SendAsync("ActualLocationSent", actualLatitude, actualLongitude);
         }

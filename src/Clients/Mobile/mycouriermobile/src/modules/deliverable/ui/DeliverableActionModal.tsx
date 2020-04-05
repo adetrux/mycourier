@@ -8,7 +8,7 @@ import { deliverablesService } from "../service/deliverablesService";
 import { updateDeliverable } from "../store/deliverablesStore";
 import {
   DeliverableStateType,
-  getDeliverableState
+  getDeliverableState,
 } from "../store/deliverableState";
 
 interface DeliverableActionModalProps {
@@ -22,7 +22,7 @@ export function DeliverableActionModal({
   modalOpened,
   setModalOpened,
   deliverable,
-  deliverableHubConnection
+  deliverableHubConnection,
 }: DeliverableActionModalProps) {
   const dispatch = useDispatch();
   const deliverableActualState = getDeliverableState(deliverable);
@@ -43,7 +43,7 @@ export function DeliverableActionModal({
             type === DeliverableStateType.ACCEPTED ||
             type === DeliverableStateType.DELIVERING
               ? false
-              : true
+              : true,
         };
 
         dispatch(updateDeliverable(deliverableToUpdate));
@@ -86,7 +86,7 @@ export function DeliverableActionModal({
           style={styles.button}
         >
           <Text>Delivering</Text>
-          <Icon name="local-shipping" size={26} color="orange" />
+          <Icon name="local-shipping" size={26} color="blue" />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={handlePressButton(DeliverableStateType.DELIVERED)}
@@ -106,17 +106,17 @@ const styles = StyleSheet.create({
     marginTop: 24,
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
   },
   title: {
     textAlign: "center",
     fontSize: 20,
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   state: {
     textAlign: "center",
     fontSize: 16,
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   button: {
     marginTop: 24,
@@ -127,6 +127,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     borderWidth: 1,
-    borderRadius: 20
-  }
+    borderRadius: 20,
+  },
 });

@@ -19,30 +19,32 @@ namespace Deliverables.Dal
         {
             base.OnModelCreating(modelBuilder);
 
-            // AddDeliverables(modelBuilder);
+            AddDeliverables(modelBuilder);
         }
 
-        /*
+        
         private void AddDeliverables(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Deliverable>().HasData(
                 new Deliverable
                 {
-                    Id = 1,
-                    CostumerId = "23108de4-5574-4961-a949-50bf5579f150",
-                    CostumerFirstName = "A",
-                    CostumerLastName = "A",
-                    StartLocationLatitude = 1,
-                    StartLocationLongitude = 1,
-                    DestinationLocationLatitude = 10,
-                    DestinationLocationLongitude = 10,
+                    Id = "123-test-deliverable-456",
+                    CreatedTime = 1111111111,
+                    Name = "Test",
+                    CustomerId = "23108de4-5574-4961-a949-50bf5579f150",
+                    CustomerFirstName = "Bob",
+                    CustomerLastName = "White",
+                    StartLocationLatitude = 47.515249,
+                    StartLocationLongitude = 19.147091,
+                    DestinationLocationLatitude = 47.525249,
+                    DestinationLocationLongitude = 19.157091,
                     Accepted = false,
                     Delivering = false,
                     Delivered = false,
-                    CourierId = null,
+                    /* CourierId = null,
                     CourierFirstName = null,
-                    CourierLastName = null
+                    CourierLastName = null */
                 });
-        }*/
+        }
     }
 }

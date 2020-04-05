@@ -37,6 +37,15 @@ export function MapView() {
 
   const center = [47.505249, 19.137091];
 
+  const actualLocationMarker = () =>
+    actualLatitude &&
+    actualLongitude && (
+      <Marker
+        position={[actualLatitude, actualLongitude]}
+        icon={actualMarkerIcon(selectedDeliverable)}
+      />
+    );
+
   const startLocationMarker = () =>
     selectedDeliverable &&
     selectedDeliverable.startLocationLatitude &&
@@ -47,9 +56,7 @@ export function MapView() {
           selectedDeliverable.startLocationLongitude,
         ]}
         icon={startMarkerIcon(selectedDeliverable)}
-      >
-        <Popup>Your deliverable</Popup>
-      </Marker>
+      />
     );
 
   const destinationLocationMarker = () =>
@@ -62,9 +69,7 @@ export function MapView() {
           selectedDeliverable.destinationLocationLongitude,
         ]}
         icon={destinationMarkerIcon}
-      >
-        <Popup>Home</Popup>
-      </Marker>
+      />
     );
 
   return (
@@ -75,12 +80,7 @@ export function MapView() {
       className={classes.map}
     >
       <TileLayer url={tileUrl} attribution={tileAttribution} />
-      <Marker
-        position={[actualLatitude, actualLongitude]}
-        icon={actualMarkerIcon(selectedDeliverable)}
-      >
-        <Popup>Courier</Popup>
-      </Marker>
+      {actualLocationMarker()}
       {startLocationMarker()}
       {destinationLocationMarker()}
     </Map>

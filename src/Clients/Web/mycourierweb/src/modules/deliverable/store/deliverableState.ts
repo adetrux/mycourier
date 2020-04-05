@@ -4,7 +4,7 @@ export enum DeliverableStateType {
   PLACED,
   ACCEPTED,
   DELIVERING,
-  DELIVERED
+  DELIVERED,
 }
 
 interface DeliverableState {
@@ -14,7 +14,7 @@ interface DeliverableState {
 export const getDeliverableState = ({
   accepted,
   delivering,
-  delivered
+  delivered,
 }: Deliverable): DeliverableState => {
   if (!accepted) {
     return { type: DeliverableStateType.PLACED, name: "Placed" };

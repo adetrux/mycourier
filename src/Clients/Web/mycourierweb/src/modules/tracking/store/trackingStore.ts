@@ -1,29 +1,32 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialLatitude = 47.505249;
-const initialLongitude = 19.137091;
-
 interface TrackingState {
-  actualLatitude: number;
-  actualLongitude: number;
+  actualLatitude?: number;
+  actualLongitude?: number;
 }
 
 const initialTrackingState: TrackingState = {
-  actualLatitude: initialLatitude,
-  actualLongitude: initialLongitude
+  actualLatitude: undefined,
+  actualLongitude: undefined,
 };
 
 export const tracking = createSlice({
   name: "tracking",
   initialState: initialTrackingState,
   reducers: {
-    setActualLatitude(state: TrackingState, action: PayloadAction<number>) {
+    setActualLatitude(
+      state: TrackingState,
+      action: PayloadAction<number | undefined>
+    ) {
       state.actualLatitude = action.payload;
     },
-    setActualLongitude(state: TrackingState, action: PayloadAction<number>) {
+    setActualLongitude(
+      state: TrackingState,
+      action: PayloadAction<number | undefined>
+    ) {
       state.actualLongitude = action.payload;
-    }
-  }
+    },
+  },
 });
 
 export const { setActualLatitude, setActualLongitude } = tracking.actions;

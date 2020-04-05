@@ -6,7 +6,7 @@ import React from "react";
 import { Deliverable } from "../models/deliverable";
 import {
   DeliverableStateType,
-  getDeliverableState
+  getDeliverableState,
 } from "../store/deliverableState";
 
 interface DeliverableIconProps {
@@ -21,7 +21,7 @@ export function DeliverableIcon({ deliverable }: DeliverableIconProps) {
     case DeliverableStateType.ACCEPTED:
       return <PersonPinCircleRounded style={{ color: "#1565c0" }} />;
     case DeliverableStateType.DELIVERING:
-      return <LocalShippingRounded style={{ color: "orange" }} />;
+      return <LocalShippingRounded style={{ color: "blue" }} />;
     case DeliverableStateType.DELIVERED:
       return <WhereToVoteRounded style={{ color: "green" }} />;
   }
