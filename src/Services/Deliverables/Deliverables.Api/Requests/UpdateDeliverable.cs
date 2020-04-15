@@ -15,5 +15,8 @@ namespace Deliverables.Api.Requests
         public bool Accepted { get; set; }
         public bool Delivering { get; set; }
         public bool Delivered { get; set; }
+        public string CourierId { get; set; }
+        public string CourierFirstName { get; set; }
+        public string CourierLastName { get; set; }
     }
 }

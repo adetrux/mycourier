@@ -28,9 +28,9 @@ namespace Deliverables.Dal
             modelBuilder.Entity<Deliverable>().HasData(
                 new Deliverable
                 {
-                    Id = "123-test-deliverable-456",
+                    Id = "1-test-deliverable",
                     CreatedTime = 1,
-                    Name = "Test",
+                    Name = "Test1",
                     CustomerId = "cus1",
                     CustomerFirstName = "Cus",
                     CustomerLastName = "TomerOne",
@@ -41,9 +41,47 @@ namespace Deliverables.Dal
                     Accepted = false,
                     Delivering = false,
                     Delivered = false,
-                    CourierId = "cou1",
-                    CourierFirstName = "Cou",
-                    CourierLastName = "RierOne"
+                    CourierId = null,
+                    CourierFirstName = null,
+                    CourierLastName = null
+                },
+                new Deliverable
+                {
+                    Id = "2-test-deliverable",
+                    CreatedTime = 2,
+                    Name = "Test2",
+                    CustomerId = "cus1",
+                    CustomerFirstName = "Cus",
+                    CustomerLastName = "TomerOne",
+                    StartLocationLatitude = 47.495249,
+                    StartLocationLongitude = 19.147091,
+                    DestinationLocationLatitude = 47.525249,
+                    DestinationLocationLongitude = 19.177091,
+                    Accepted = false,
+                    Delivering = false,
+                    Delivered = false,
+                    CourierId = null,
+                    CourierFirstName = null,
+                    CourierLastName = null
+                },
+                new Deliverable
+                {
+                    Id = "3-test-deliverable",
+                    CreatedTime = 3,
+                    Name = "Test3",
+                    CustomerId = "cus2",
+                    CustomerFirstName = "Cus",
+                    CustomerLastName = "TomerTwo",
+                    StartLocationLatitude = 47.515249,
+                    StartLocationLongitude = 19.127091,
+                    DestinationLocationLatitude = 47.525249,
+                    DestinationLocationLongitude = 19.137091,
+                    Accepted = false,
+                    Delivering = false,
+                    Delivered = false,
+                    CourierId = null,
+                    CourierFirstName = null,
+                    CourierLastName = null
                 });
         }
     }
