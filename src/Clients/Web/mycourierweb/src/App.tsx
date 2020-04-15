@@ -1,31 +1,34 @@
-import { makeStyles } from "@material-ui/core";
 import React from "react";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
 import "./App.css";
-import { DeliverablesControlPanel } from "./modules/deliverable/ui/DeliverablesControlPanel";
-import { MapView } from "./modules/map/ui/MapView";
-
-const useStyles = makeStyles({
-  root: {
-    flexGrow: 1,
-    width: "100%",
-    display: "flex",
-    flexDirection: "row"
-  },
-  controlPanel: {
-    width: "20%",
-    height: "100vh"
-  }
-});
+import { authService } from "./modules/user/auth";
+import { HomePage } from "./shared/ui/HomePage";
+import { LoginPage } from "./shared/ui/LoginPage";
 
 function App() {
-  const classes = useStyles();
   return (
-    <div className={classes.root}>
-      <div className={classes.controlPanel}>
-        <DeliverablesControlPanel />
-      </div>
-      <MapView />
-    </div>
+    <Router>
+      <Switch>
+        <Route exact={true} path="/" component={LoginPage} />
+        <Route
+          exact={true}
+          path="/home"
+          // tslint:disable-next-line: jsx-no-lambda
+          render={() =>
+            authService.isLoggedIn() === "true" ? (
+              <HomePage />
+            ) : (
+              <Redirect to="/" />
+            )
+          }
+        />
+      </Switch>
+    </Router>
   );
 }
 

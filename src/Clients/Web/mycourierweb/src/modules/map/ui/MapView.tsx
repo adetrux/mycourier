@@ -1,8 +1,7 @@
 import { makeStyles, Theme } from "@material-ui/core";
 import React from "react";
-import { Map, Marker, Popup, TileLayer } from "react-leaflet";
+import { Map, Marker, TileLayer } from "react-leaflet";
 import { useSelector } from "react-redux";
-import { colors } from "../../../assets/colors";
 import { RootState } from "../../../shared/store/rootReducer";
 import {
   actualMarkerIcon,
@@ -18,8 +17,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   map: {
     height: "100vh",
     width: "80%",
-    paddingLeft: theme.spacing(2),
-    backgroundColor: colors.blue,
   },
 }));
 

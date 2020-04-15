@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { serviceUrl } from "../../../shared/service/url";
+import { authService } from "../../user/auth";
 import { Deliverable } from "../models/deliverable";
 
 interface DeliverablesService {
@@ -12,11 +13,15 @@ interface DeliverablesService {
 export const deliverablesService: DeliverablesService = {
   async getDeliverables() {
     return axios
-      .get(`${serviceUrl.deliverablesServiceApiUrl}`)
-      .then(res => {
+      .get(`${serviceUrl.deliverablesServiceApiUrl}`, {
+        headers: {
+          Authorization: authService.getAuthString(),
+        },
+      })
+      .then((res) => {
         return res.data as Deliverable[];
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         return [] as Deliverable[];
       });
@@ -26,14 +31,14 @@ export const deliverablesService: DeliverablesService = {
     return axios
       .post(`${serviceUrl.deliverablesServiceApiUrl}/create`, deliverable, {
         headers: {
-          Authorization: "token"
-        }
+          Authorization: "token",
+        },
       })
       .then(() => {
         console.log("deliverableService: deliverable created");
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
-  }
+  },
 };
