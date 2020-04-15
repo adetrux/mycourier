@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Deliverables.Api.Requests;
+using Deliverables.Api.Services;
 using Deliverables.Dal;
 using Deliverables.Domain;
 using Microsoft.AspNetCore.Authorization;
@@ -16,17 +17,23 @@ namespace Deliverables.Api.Controllers
     public class DeliverablesController : ControllerBase
     {
         private readonly IDeliverablesRepository _deliverablesRepository;
+        private readonly IDeliverablesService _deliverablesService;
 
-        public DeliverablesController(IDeliverablesRepository deliverablesRepository)
+        public DeliverablesController(
+            IDeliverablesRepository deliverablesRepository,
+            IDeliverablesService deliverablesService)
         {
             _deliverablesRepository = deliverablesRepository;
+            _deliverablesService = deliverablesService;
         }
 
         [Authorize]
         [HttpGet]
         public ActionResult<IEnumerable<Deliverable>> GetDeliverables()
         {
-            return _deliverablesRepository.GetDeliverables().Result.ToArray();
+            string userId = User.FindFirst("Id").Value;
+            string userRole = User.FindFirst("Role").Value;
+            return _deliverablesService.GetDeliverables(userId, userRole).Result.ToArray();
         }
 
         [Authorize(Policy = "Customer")]

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Deliverables.Api.Hubs;
+using Deliverables.Api.Services;
 using Deliverables.Dal;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -52,6 +53,7 @@ namespace Deliverables.Api
             services.AddControllers();
 
             services.AddTransient<IDeliverablesRepository, DeliverablesRepository>();
+            services.AddTransient<IDeliverablesService, DeliverablesService>();
 
             services.AddDbContext<DeliverablesDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
