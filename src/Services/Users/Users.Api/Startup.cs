@@ -74,12 +74,18 @@ namespace Users.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            var serviceProvider = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider;
+            var serviceProvider = app.ApplicationServices
+                .GetRequiredService<IServiceScopeFactory>()
+                .CreateScope()
+                .ServiceProvider;
+
             var context = serviceProvider.GetRequiredService<UsersDbContext>();
             if (!context.Database.EnsureCreated())
             {
                 context.Database.Migrate();
             }
+
+            Seed.Initialize(serviceProvider);
 
             app.UseCors("MyPolicy");
 

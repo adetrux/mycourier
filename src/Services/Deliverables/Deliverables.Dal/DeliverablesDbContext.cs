@@ -29,11 +29,11 @@ namespace Deliverables.Dal
                 new Deliverable
                 {
                     Id = "123-test-deliverable-456",
-                    CreatedTime = 1111111111,
+                    CreatedTime = 1,
                     Name = "Test",
-                    CustomerId = "23108de4-5574-4961-a949-50bf5579f150",
-                    CustomerFirstName = "Bob",
-                    CustomerLastName = "White",
+                    CustomerId = "cus1",
+                    CustomerFirstName = "Cus",
+                    CustomerLastName = "TomerOne",
                     StartLocationLatitude = 47.515249,
                     StartLocationLongitude = 19.147091,
                     DestinationLocationLatitude = 47.525249,
@@ -41,9 +41,9 @@ namespace Deliverables.Dal
                     Accepted = false,
                     Delivering = false,
                     Delivered = false,
-                    /* CourierId = null,
-                    CourierFirstName = null,
-                    CourierLastName = null */
+                    CourierId = "cou1",
+                    CourierFirstName = "Cou",
+                    CourierLastName = "RierOne"
                 });
         }
     }
