@@ -51,15 +51,13 @@ namespace Users.Api.Controllers
                     new Claim("Id", user.Id),
                     new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim("IsCourier", _userManager.IsInRoleAsync(user, "Courier").Result.ToString())
+                    new Claim("Role", _userManager.GetRolesAsync(user).Result.First()),
                 };
                 var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SigningKey"]));
 
                 int expiryInMinutes = Convert.ToInt32(_configuration["Jwt:ExpiryInMinutes"]);
 
                 var token = new JwtSecurityToken(
-                    issuer: _configuration["Jwt:Site"],
-                    audience: _configuration["Jwt:Site"],
                     expires: DateTime.UtcNow.AddMinutes(expiryInMinutes),
                     claims: claims,
                     signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
@@ -70,7 +68,7 @@ namespace Users.Api.Controllers
                     {
                         token = new JwtSecurityTokenHandler().WriteToken(token),
                         expiration = token.ValidTo,
-                        isCourier = _userManager.IsInRoleAsync(user, "Courier").Result.ToString()
+                        role = _userManager.GetRolesAsync(user).Result.First()
                     }
                 );
             }
