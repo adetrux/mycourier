@@ -7,8 +7,8 @@ import {
 } from "react-router-dom";
 import "./App.css";
 import { authService } from "./modules/user/auth";
-import { HomePage } from "./shared/ui/HomePage";
-import { LoginPage } from "./shared/ui/LoginPage";
+import { HomePage } from "./pages/HomePage";
+import { LoginPage } from "./pages/LoginPage";
 
 function App() {
   return (

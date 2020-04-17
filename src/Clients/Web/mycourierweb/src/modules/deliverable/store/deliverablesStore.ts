@@ -1,15 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Deliverable } from "../models/deliverable";
+import { DeliverableLocation } from "../models/deliverableLocation";
 import { deliverablesService } from "../service/deliverablesService";
 
 interface DeliverablesState {
   deliverables: Deliverable[];
   selectedDeliverable: Deliverable;
+  deliverableLocations: DeliverableLocation[];
 }
 
 const initialDeliverablesState: DeliverablesState = {
   deliverables: [],
   selectedDeliverable: ({} as unknown) as Deliverable,
+  deliverableLocations: [],
 };
 
 export const deliverables = createSlice({
@@ -45,6 +48,22 @@ export const deliverables = createSlice({
       );
       state.deliverables[index] = action.payload;
     },
+    setDeliverableLocation(
+      state: DeliverablesState,
+      action: PayloadAction<DeliverableLocation>
+    ) {
+      const { deliverableId, latitude, longitude } = action.payload;
+      const index = state.deliverableLocations.findIndex(
+        (dl) => dl.deliverableId === deliverableId
+      );
+
+      if (index === -1) {
+        state.deliverableLocations.push({ deliverableId, latitude, longitude });
+      } else {
+        state.deliverableLocations[index].latitude = latitude;
+        state.deliverableLocations[index].longitude = longitude;
+      }
+    },
   },
 });
 
@@ -53,5 +72,6 @@ export const {
   createDeliverable,
   setSelectedDeliverable,
   updateDeliverable,
+  setDeliverableLocation,
 } = deliverables.actions;
 export const deliverablesReducer = deliverables.reducer;

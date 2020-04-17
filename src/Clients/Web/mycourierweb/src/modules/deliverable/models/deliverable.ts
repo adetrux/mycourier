@@ -2,9 +2,8 @@ export interface Deliverable {
   id: string;
   createdTime: number;
   name: string;
-  customerId: string;
-  customerFirstName: string;
-  customerLastName: string;
+  customerId?: string;
+  customerUserName?: string;
   startLocationLatitude: number;
   startLocationLongitude: number;
   destinationLocationLatitude: number;

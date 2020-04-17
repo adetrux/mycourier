@@ -19,7 +19,10 @@ export function LoginBackgroundView() {
   const classes = useStyles();
   return (
     <div className={classes.map}>
-      <h1>MyCourier - a service for tracking couriers.</h1>
+      <h1>MyCourier</h1>
+      <h2>
+        <i>a service for tracking couriers.</i>
+      </h2>
     </div>
   );
 }

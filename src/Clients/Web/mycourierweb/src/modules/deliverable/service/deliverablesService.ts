@@ -23,6 +23,9 @@ export const deliverablesService: DeliverablesService = {
       })
       .catch((err) => {
         console.log(err);
+        authService.logout();
+        // eslint-disable-next-line no-restricted-globals
+        location.reload();
         return [] as Deliverable[];
       });
   },

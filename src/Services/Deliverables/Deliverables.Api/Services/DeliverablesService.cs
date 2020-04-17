@@ -28,8 +28,27 @@ namespace Deliverables.Api.Services
                 default:
                     throw new Exception("Role does not exist.");
             }
+        }
 
-            throw new NotImplementedException();
+        public async Task CreateDeliverable(Deliverable deliverable, string customerId, string customerUserName)
+        {
+            Deliverable deliverableToCreate = new Deliverable
+            {
+                Id = deliverable.Id,
+                CreatedTime = deliverable.CreatedTime,
+                Name = deliverable.Name,
+                CustomerId = customerId,
+                CustomerUserName = customerUserName,
+                StartLocationLatitude = deliverable.StartLocationLatitude,
+                StartLocationLongitude = deliverable.StartLocationLongitude,
+                DestinationLocationLatitude = deliverable.DestinationLocationLatitude,
+                DestinationLocationLongitude = deliverable.DestinationLocationLongitude,
+                Accepted = deliverable.Accepted,
+                Delivering = deliverable.Delivering,
+                Delivered = deliverable.Delivered
+            };
+
+            await _deliverablesRepository.CreateDeliverable(deliverableToCreate);
         }
     }
 }

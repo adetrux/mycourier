@@ -32,18 +32,15 @@ namespace Deliverables.Dal
                     CreatedTime = 1,
                     Name = "Test1",
                     CustomerId = "cus1",
-                    CustomerFirstName = "Cus",
-                    CustomerLastName = "TomerOne",
+                    CustomerUserName = "customer1@gmail.com",
                     StartLocationLatitude = 47.515249,
                     StartLocationLongitude = 19.147091,
                     DestinationLocationLatitude = 47.525249,
                     DestinationLocationLongitude = 19.157091,
+                    CourierId = null,
                     Accepted = false,
                     Delivering = false,
-                    Delivered = false,
-                    CourierId = null,
-                    CourierFirstName = null,
-                    CourierLastName = null
+                    Delivered = false
                 },
                 new Deliverable
                 {
@@ -51,18 +48,15 @@ namespace Deliverables.Dal
                     CreatedTime = 2,
                     Name = "Test2",
                     CustomerId = "cus1",
-                    CustomerFirstName = "Cus",
-                    CustomerLastName = "TomerOne",
+                    CustomerUserName = "customer1@gmail.com",
                     StartLocationLatitude = 47.495249,
                     StartLocationLongitude = 19.147091,
                     DestinationLocationLatitude = 47.525249,
                     DestinationLocationLongitude = 19.177091,
+                    CourierId = null,
                     Accepted = false,
                     Delivering = false,
-                    Delivered = false,
-                    CourierId = null,
-                    CourierFirstName = null,
-                    CourierLastName = null
+                    Delivered = false
                 },
                 new Deliverable
                 {
@@ -70,18 +64,15 @@ namespace Deliverables.Dal
                     CreatedTime = 3,
                     Name = "Test3",
                     CustomerId = "cus2",
-                    CustomerFirstName = "Cus",
-                    CustomerLastName = "TomerTwo",
+                    CustomerUserName = "customer2@gmail.com",
                     StartLocationLatitude = 47.515249,
                     StartLocationLongitude = 19.127091,
                     DestinationLocationLatitude = 47.525249,
                     DestinationLocationLongitude = 19.137091,
+                    CourierId = null,
                     Accepted = false,
                     Delivering = false,
-                    Delivered = false,
-                    CourierId = null,
-                    CourierFirstName = null,
-                    CourierLastName = null
+                    Delivered = false
                 });
         }
     }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +16,10 @@ namespace MobileSimulator
         private double longitudeStepDistance = 0;
         private bool delivering = false;
         private bool delivered = false;
+
+        private readonly HttpClient httpClient = new HttpClient();
+        private string token;
+
         private HubConnection deliverableHubConnection;
         private HubConnection trackingHubConnection;
 
@@ -22,13 +27,16 @@ namespace MobileSimulator
         {
             deliverable = sampleDeliverable();
 
-            buildHubConnections();
+            token = getToken();
+
+            buildHubConnectionsAsync();
         }
 
         public async Task StartAsync()
         {
             Deliverable updatedDeliverable = sampleDeliverable();
             updatedDeliverable.Accepted = true;
+            updatedDeliverable.CourierId = "cou1";
             await deliverableHubConnection.InvokeAsync("UpdateDeliverable", updatedDeliverable);
 
             computeStepDistances();
@@ -39,21 +47,45 @@ namespace MobileSimulator
             Console.WriteLine($"position(lat, long): ({actualLatitude}, {actualLongitude})\tstate: {state}");
         }
 
-        private void buildHubConnections()
+        private string getToken()
+        {
+            LoginRequest loginRequest = new LoginRequest
+            {
+                Email = "courier1@gmail.com",
+                Password = "password0"
+            };
+
+            var json = JsonConvert.SerializeObject(loginRequest);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = httpClient.PostAsync("http://localhost:5080/users/login", data);
+            var responseAsString = response.Result.Content.ReadAsStringAsync().Result;
+            LoginResponse loginResponse = JsonConvert.DeserializeObject<LoginResponse>(responseAsString);
+            string token = loginResponse.Token;
+            Console.WriteLine(token);
+            return token;
+        }
+
+        private async void buildHubConnectionsAsync()
         {
             deliverableHubConnection = new HubConnectionBuilder()
-                .WithUrl("http://localhost:5080/deliverables/deliverableHub")
+                .WithUrl("http://localhost:5080/deliverables/deliverableHub", options =>
+                {
+                    options.AccessTokenProvider = () => Task.FromResult(token);
+                })
                 .WithAutomaticReconnect()
                 .Build();
 
-            deliverableHubConnection.StartAsync();
+            await deliverableHubConnection.StartAsync();
 
             trackingHubConnection = new HubConnectionBuilder()
-                .WithUrl("http://localhost:5080/tracking/trackingHub")
+                .WithUrl("http://localhost:5080/tracking/trackingHub", options =>
+                {
+                    options.AccessTokenProvider = () => Task.FromResult(token);
+                })
                 .WithAutomaticReconnect()
                 .Build();
 
-            trackingHubConnection.StartAsync();
+            await trackingHubConnection.StartAsync();
         }
 
         private void computeStepDistances()
@@ -70,7 +102,11 @@ namespace MobileSimulator
                 action();
                 var newState = getState(delivering, delivered);
                 Console.WriteLine($"position(lat, long): ({actualLatitude}, {actualLongitude})\tstate: {newState}");
-                await trackingHubConnection.InvokeAsync("SendActualLocation", actualLatitude, actualLongitude);
+                await trackingHubConnection.InvokeAsync("SendActualLocation",
+                    deliverable.Id,
+                    deliverable.CustomerUserName,
+                    actualLatitude,
+                    actualLongitude);
                 
                 if (state.Equals("accepted") && newState.Equals("delivering"))
                 {
@@ -87,7 +123,11 @@ namespace MobileSimulator
                     updatedDeliverable.Delivering = true;
                     updatedDeliverable.Delivered = true;
                     await deliverableHubConnection.InvokeAsync("UpdateDeliverable", updatedDeliverable);
-                    await trackingHubConnection.InvokeAsync("SendActualLocation", null, null);
+                    await trackingHubConnection.InvokeAsync("SendActualLocation",
+                        deliverable.Id,
+                        deliverable.CustomerUserName,
+                        null,
+                        null);
                 }
 
                 await Task.Delay(TimeSpan.FromSeconds(seconds));
@@ -125,12 +165,11 @@ namespace MobileSimulator
         {
             return new Deliverable
             {
-                Id = "123-test-deliverable-456",
-                CreatedTime = 1111111111,
-                Name = "Test",
-                CustomerId = "23108de4-5574-4961-a949-50bf5579f150",
-                CustomerFirstName = "Bob",
-                CustomerLastName = "White",
+                Id = "1-test-deliverable",
+                CreatedTime = 1,
+                Name = "Test1",
+                CustomerId = "cus1",
+                CustomerUserName = "customer1@gmail.com",
                 StartLocationLatitude = 47.515249,
                 StartLocationLongitude = 19.147091,
                 DestinationLocationLatitude = 47.525249,

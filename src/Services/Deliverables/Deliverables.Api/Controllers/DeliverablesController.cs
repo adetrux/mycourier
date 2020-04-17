@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Deliverables.Api.Requests;
 using Deliverables.Api.Services;
 using Deliverables.Dal;
 using Deliverables.Domain;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Deliverables.Api.Controllers
@@ -33,6 +30,7 @@ namespace Deliverables.Api.Controllers
         {
             string userId = User.FindFirst("Id").Value;
             string userRole = User.FindFirst("Role").Value;
+
             return _deliverablesService.GetDeliverables(userId, userRole).Result.ToArray();
         }
 
@@ -40,7 +38,10 @@ namespace Deliverables.Api.Controllers
         [HttpPost("create")]
         public async Task CreateDeliverable([FromBody] Deliverable deliverable)
         {
-            await _deliverablesRepository.CreateDeliverable(deliverable);
+            string customerId = User.FindFirst("Id").Value;
+            string customerUserName = User.Identity.Name;
+
+            await _deliverablesService.CreateDeliverable(deliverable, customerId, customerUserName);
         }
 
         [Authorize(Policy = "Courier")]

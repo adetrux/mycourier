@@ -6,11 +6,9 @@ import { useHistory } from "react-router-dom";
 import { colors } from "../../../assets/colors";
 import { useHubConnection } from "../../../shared/hub/hub";
 import { hubUrl } from "../../../shared/service/url";
-import {
-  setActualLatitude,
-  setActualLongitude,
-} from "../../tracking/store/trackingStore";
 import { authService } from "../../user/auth";
+import { DeliverableLocation } from "../models/deliverableLocation";
+import { setDeliverableLocation } from "../store/deliverablesStore";
 import { CreateDeliverable } from "./CreateDeliverable";
 import { DeliverablesList } from "./DeliverablesList";
 
@@ -35,15 +33,25 @@ export function DeliverablesControlPanel() {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
+
   const deliverableHubConnection = useHubConnection(hubUrl.deliverableHubUrl);
   const trackingHubConnection = useHubConnection(hubUrl.trackingHubUrl);
   trackingHubConnection.on(
     "ActualLocationSent",
-    (actualLatitude?: number, actualLongitude?: number) => {
+    (
+      deliverableId: string,
+      actualLatitude?: number,
+      actualLongitude?: number
+    ) => {
+      console.log("deliverable id:", deliverableId);
       console.log("actual latitude: ", actualLatitude);
       console.log("actual longitude: ", actualLongitude);
-      dispatch(setActualLatitude(actualLatitude));
-      dispatch(setActualLongitude(actualLongitude));
+      const deliverableLocation: DeliverableLocation = {
+        deliverableId,
+        latitude: actualLatitude,
+        longitude: actualLongitude,
+      };
+      dispatch(setDeliverableLocation(deliverableLocation));
     }
   );
 
@@ -64,7 +72,6 @@ export function DeliverablesControlPanel() {
           <ExitToApp />
         </IconButton>
       </Tooltip>
-      {/* <h1>Deliverables</h1> */}
       <CreateDeliverable deliverableHubConnection={deliverableHubConnection} />
       <DeliverablesList deliverableHubConnection={deliverableHubConnection} />
     </div>

@@ -25,12 +25,15 @@ export function MapView() {
   const selectedDeliverable = useSelector(
     (state: RootState) => state.deliverablesReducer.selectedDeliverable
   );
-  const actualLatitude = useSelector(
-    (state: RootState) => state.trackingReducer.actualLatitude
+  const deliverableLocations = useSelector(
+    (state: RootState) => state.deliverablesReducer.deliverableLocations
   );
-  const actualLongitude = useSelector(
-    (state: RootState) => state.trackingReducer.actualLongitude
-  );
+  const actualLatitude = deliverableLocations.find(
+    (dl) => dl.deliverableId === selectedDeliverable.id
+  )?.latitude;
+  const actualLongitude = deliverableLocations.find(
+    (dl) => dl.deliverableId === selectedDeliverable.id
+  )?.longitude;
 
   const center = [47.505249, 19.137091];
 

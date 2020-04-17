@@ -9,5 +9,6 @@ namespace Deliverables.Api.Services
     public interface IDeliverablesService
     {
         Task<IEnumerable<Deliverable>> GetDeliverables(string userId, string userRole);
+        Task CreateDeliverable(Deliverable deliverable, string customerId, string customerUserName);
     }
 }

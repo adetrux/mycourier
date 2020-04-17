@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core";
 import React from "react";
-import { DeliverablesControlPanel } from "../../modules/deliverable/ui/DeliverablesControlPanel";
-import { MapView } from "../../modules/map/ui/MapView";
+import { DeliverablesControlPanel } from "../modules/deliverable/ui/DeliverablesControlPanel";
+import { MapView } from "../modules/map/ui/MapView";
 
 const useStyles = makeStyles({
   root: {
