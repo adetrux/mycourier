@@ -28,8 +28,8 @@ namespace Deliverables.Api.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Deliverable>> GetDeliverables()
         {
-            string userId = User.FindFirst("Id").Value;
-            string userRole = User.FindFirst("Role").Value;
+            string userId = GetUserId();
+            string userRole = GetUserRole();
 
             return _deliverablesService.GetDeliverables(userId, userRole).Result.ToArray();
         }
@@ -38,8 +38,8 @@ namespace Deliverables.Api.Controllers
         [HttpPost("create")]
         public async Task CreateDeliverable([FromBody] Deliverable deliverable)
         {
-            string customerId = User.FindFirst("Id").Value;
-            string customerUserName = User.Identity.Name;
+            string customerId = GetUserId();
+            string customerUserName = GetUserName();
 
             await _deliverablesService.CreateDeliverable(deliverable, customerId, customerUserName);
         }
@@ -49,6 +49,21 @@ namespace Deliverables.Api.Controllers
         public async Task UpdateDeliverable(string id, [FromBody] Deliverable deliverable)
         {
             await _deliverablesRepository.UpdateDeliverable(id, deliverable);
+        }
+
+        private string GetUserId()
+        {
+            return User.FindFirst("Id").Value;
+        }
+
+        private string GetUserName()
+        {
+            return User.Identity.Name;
+        }
+
+        private string GetUserRole()
+        {
+            return User.FindFirst("Role").Value;
         }
     }
 }
