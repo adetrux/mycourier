@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { serviceUrl } from "../../../shared/service/url";
-import { authService } from "../../user/auth";
+import { authService } from "../../user/authService";
 import { Deliverable } from "../models/deliverable";
 
 interface DeliverablesService {
