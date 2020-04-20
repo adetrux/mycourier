@@ -53,7 +53,6 @@ export const authService: AuthService = {
   },
 
   logout() {
-    // this.setToken("");
     this.setIsLoggedIn(false);
   },
 };
