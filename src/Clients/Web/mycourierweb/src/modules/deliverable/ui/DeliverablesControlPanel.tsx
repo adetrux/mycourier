@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import { colors } from "../../../assets/colors";
 import { useHubConnection } from "../../../shared/hub/hub";
 import { hubUrl } from "../../../shared/service/url";
-import { authService } from "../../user/auth";
+import { authService } from "../../user/authService";
 import { DeliverableLocation } from "../models/deliverableLocation";
 import { setDeliverableLocation } from "../store/deliverablesStore";
 import { CreateDeliverable } from "./CreateDeliverable";

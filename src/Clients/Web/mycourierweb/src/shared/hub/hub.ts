@@ -1,5 +1,5 @@
 import * as signalR from "@microsoft/signalr";
-import { authService } from "../../modules/user/auth";
+import { authService } from "../../modules/user/authService";
 
 export function useHubConnection(hubUrl: string) {
   const hubConnection = new signalR.HubConnectionBuilder()

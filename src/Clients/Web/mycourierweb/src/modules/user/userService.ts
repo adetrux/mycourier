@@ -1,6 +1,6 @@
 import axios from "axios";
 import { serviceUrl } from "../../shared/service/url";
-import { authService } from "./auth";
+import { authService } from "./authService";
 
 interface UserService {
   login(email: string, password: string): Promise<boolean>;

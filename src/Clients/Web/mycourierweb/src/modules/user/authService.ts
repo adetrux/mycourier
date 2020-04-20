@@ -2,7 +2,7 @@ interface AuthService {
   getAuthString(): string;
   getToken(): string;
   setToken(token: string): void;
-  isLoggedIn(): string;
+  isLoggedIn(): boolean;
   setIsLoggedIn(value: boolean): void;
   logout(): void;
 }
@@ -22,8 +22,10 @@ export const authService: AuthService = {
 
   isLoggedIn() {
     return localStorage.getItem("isLoggedIn")
-      ? localStorage.getItem("isLoggedIn")!
-      : "false";
+      ? localStorage.getItem("isLoggedIn")! === "true"
+        ? true
+        : false
+      : false;
   },
 
   setIsLoggedIn(value: boolean) {

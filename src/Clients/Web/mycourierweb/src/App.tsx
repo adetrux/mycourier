@@ -6,7 +6,7 @@ import {
   Switch,
 } from "react-router-dom";
 import "./App.css";
-import { authService } from "./modules/user/auth";
+import { authService } from "./modules/user/authService";
 import { HomePage } from "./pages/HomePage";
 import { LoginPage } from "./pages/LoginPage";
 
@@ -20,11 +20,7 @@ function App() {
           path="/home"
           // tslint:disable-next-line: jsx-no-lambda
           render={() =>
-            authService.isLoggedIn() === "true" ? (
-              <HomePage />
-            ) : (
-              <Redirect to="/" />
-            )
+            authService.isLoggedIn() ? <HomePage /> : <Redirect to="/" />
           }
         />
       </Switch>
