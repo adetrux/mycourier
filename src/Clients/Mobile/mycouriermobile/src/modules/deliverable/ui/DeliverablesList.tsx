@@ -1,6 +1,3 @@
-import Constants from "expo-constants";
-import * as Location from "expo-location";
-import * as Permissions from "expo-permissions";
 import React, { useCallback, useEffect, useState } from "react";
 import {
   FlatList,
@@ -26,7 +23,6 @@ export function DeliverablesList() {
   );
 
   const deliverableHubConnection = useHubConnection(hubUrl.deliverableHubUrl);
-  // const trackingHubConnection = useHubConnection(hubUrl.trackingHubUrl);
 
   deliverableHubConnection.on(
     "DeliverableCreated",
@@ -39,13 +35,6 @@ export function DeliverablesList() {
   deliverableHubConnection.on("DeliverableUpdated", () => {
     console.log("deliverable updated");
   });
-
-  // trackingHubConnection.on(
-  //   "ActualLocationSent",
-  //   (_actualLatitude: number, _actualLongitude: number) => {
-  //     // do nothing
-  //   }
-  // );
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -63,36 +52,6 @@ export function DeliverablesList() {
     setRefreshing(true);
     fetchDeliverables();
   }, []);
-
-  // const getLocationAsync = async () => {
-  //   const { status } = await Permissions.askAsync(Permissions.LOCATION);
-  //   if (status !== "granted") {
-  //     console.log("Permission to access location was denied");
-  //   }
-  //   const currentLocation = await Location.getCurrentPositionAsync({});
-  //   return currentLocation;
-  // };
-
-  // useEffect(() => {
-  //   setInterval(async () => {
-  //     if (Platform.OS === "android" && !Constants.isDevice) {
-  //       console.log(
-  //         "Oops, this will not work on Sketch in an Android emulator. Try it on your device!"
-  //       );
-  //     } else {
-  //       const location = await getLocationAsync();
-  //       console.log("actual latitude", location.coords.latitude);
-  //       console.log("actual longitude", location.coords.longitude);
-  //       trackingHubConnection.invoke(
-  //         "SendActualLocation",
-  //         "1-test-deliverable",
-  //         "customer1@gmail.com",
-  //         location?.coords.latitude,
-  //         location?.coords.longitude
-  //       );
-  //     }
-  //   }, 3000);
-  // }, []);
 
   const renderItem = (deliverableItemInfo: ListRenderItemInfo<Deliverable>) => (
     <DeliverablesListItem

@@ -25,7 +25,7 @@ export function HomeScreen() {
     }
   );
 
-  const getLocationAsync = async () => {
+  const getLocation = async () => {
     const { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== "granted") {
       console.log("Permission to access location was denied");
@@ -40,7 +40,7 @@ export function HomeScreen() {
         "Oops, this will not work on Sketch in an Android emulator. Try it on your device!"
       );
     } else {
-      const location = await getLocationAsync();
+      const location = await getLocation();
       isSignedIn && console.log("actual latitude", location.coords.latitude);
       isSignedIn && console.log("actual longitude", location.coords.longitude);
       isSignedIn && console.log("isloggedin");

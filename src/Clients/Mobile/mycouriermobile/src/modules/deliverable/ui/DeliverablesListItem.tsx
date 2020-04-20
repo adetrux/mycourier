@@ -13,7 +13,7 @@ interface DeliverablesListItemProps {
 
 export function DeliverablesListItem({
   deliverable,
-  deliverableHubConnection
+  deliverableHubConnection,
 }: DeliverablesListItemProps) {
   const [modalOpened, setModalOpened] = useState<boolean>(false);
 
@@ -46,10 +46,6 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center"
-    //marginLeft: 6,
-    //marginRight: 6,
-    //borderWidth: 1,
-    //borderRadius: 20
-  }
+    alignItems: "center",
+  },
 });
