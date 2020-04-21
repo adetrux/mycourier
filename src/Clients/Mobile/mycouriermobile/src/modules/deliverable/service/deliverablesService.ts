@@ -5,6 +5,7 @@ import { Deliverable } from "../models/deliverable";
 
 interface DeliverablesService {
   getDeliverables(): Promise<Deliverable[]>;
+  getDeliveringToCustomerIds(): Promise<string[]>;
   updateDeliverable(
     id: string,
     deliverable: Deliverable
@@ -29,9 +30,31 @@ export const deliverablesService: DeliverablesService = {
       });
   },
 
-  async updateDeliverable(id: string, deliverable: Deliverable) {
+  async getDeliveringToCustomerIds() {
+    const authString = await authService.getAuthString();
     return axios
-      .put(`${serviceUrl.deliverablesServiceApiUrl}/${id}`, deliverable)
+      .get(`${serviceUrl.deliverablesServiceApiUrl}/delivering`, {
+        headers: {
+          Authorization: authString,
+        },
+      })
+      .then((res) => {
+        return res.data as string[];
+      })
+      .catch((err) => {
+        console.log(err);
+        return [] as string[];
+      });
+  },
+
+  async updateDeliverable(id: string, deliverable: Deliverable) {
+    const authString = await authService.getAuthString();
+    return axios
+      .put(`${serviceUrl.deliverablesServiceApiUrl}/${id}`, deliverable, {
+        headers: {
+          Authorization: authString,
+        },
+      })
       .catch((err) => console.log(err));
   },
 };

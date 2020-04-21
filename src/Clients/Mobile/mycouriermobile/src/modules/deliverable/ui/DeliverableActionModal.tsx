@@ -5,7 +5,10 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { useDispatch } from "react-redux";
 import { Deliverable } from "../models/deliverable";
 import { deliverablesService } from "../service/deliverablesService";
-import { updateDeliverable } from "../store/deliverablesStore";
+import {
+  addDeliveringToCustomerId,
+  updateDeliverable,
+} from "../store/deliverablesStore";
 import {
   DeliverableStateType,
   getDeliverableState,
@@ -46,13 +49,23 @@ export function DeliverableActionModal({
               : true,
         };
 
+        const deliverableState = getDeliverableState(deliverableToUpdate);
+        if (
+          deliverableState.type === DeliverableStateType.ACCEPTED ||
+          deliverableState.type === DeliverableStateType.DELIVERING
+        ) {
+          dispatch(
+            addDeliveringToCustomerId(deliverableToUpdate.customerUserName)
+          );
+        }
+
         dispatch(updateDeliverable(deliverableToUpdate));
-        deliverableHubConnection.invoke(
-          "UpdateDeliverable",
-          deliverableToUpdate
-        );
         deliverablesService.updateDeliverable(
           deliverableToUpdate.id,
+          deliverableToUpdate
+        );
+        deliverableHubConnection.invoke(
+          "UpdateDeliverable",
           deliverableToUpdate
         );
       }

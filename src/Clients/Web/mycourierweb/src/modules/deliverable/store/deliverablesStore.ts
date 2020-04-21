@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Deliverable } from "../models/deliverable";
 import { DeliverableLocation } from "../models/deliverableLocation";
-import { deliverablesService } from "../service/deliverablesService";
 
 interface DeliverablesState {
   deliverables: Deliverable[];
@@ -30,7 +29,6 @@ export const deliverables = createSlice({
       action: PayloadAction<Deliverable>
     ) {
       state.deliverables.unshift(action.payload);
-      deliverablesService.createDeliverable(action.payload);
       state.selectedDeliverable = state.deliverables[0];
     },
     setSelectedDeliverable(
@@ -48,17 +46,21 @@ export const deliverables = createSlice({
       );
       state.deliverables[index] = action.payload;
     },
-    setDeliverableLocation(
+    addDeliverableLocation(
       state: DeliverablesState,
       action: PayloadAction<DeliverableLocation>
     ) {
-      const { deliverableId, latitude, longitude } = action.payload;
+      const { courierUserName, latitude, longitude } = action.payload;
       const index = state.deliverableLocations.findIndex(
-        (dl) => dl.deliverableId === deliverableId
+        (dl) => dl.courierUserName === courierUserName
       );
 
       if (index === -1) {
-        state.deliverableLocations.push({ deliverableId, latitude, longitude });
+        state.deliverableLocations.push({
+          courierUserName,
+          latitude,
+          longitude,
+        });
       } else {
         state.deliverableLocations[index].latitude = latitude;
         state.deliverableLocations[index].longitude = longitude;
@@ -72,6 +74,6 @@ export const {
   createDeliverable,
   setSelectedDeliverable,
   updateDeliverable,
-  setDeliverableLocation,
+  addDeliverableLocation,
 } = deliverables.actions;
 export const deliverablesReducer = deliverables.reducer;

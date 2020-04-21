@@ -10,6 +10,6 @@ namespace Deliverables.Dal
     {
         Task<IEnumerable<Deliverable>> GetDeliverables();
         Task CreateDeliverable(Deliverable deliverable);
-        Task UpdateDeliverable(string id, Deliverable deliverable);
+        Task UpdateDeliverable(string userName, Deliverable deliverable);
     }
 }

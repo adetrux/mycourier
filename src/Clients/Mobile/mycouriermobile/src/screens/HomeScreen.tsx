@@ -16,6 +16,10 @@ export function HomeScreen() {
     (state: RootState) => state.userReducer.isSignedIn
   );
 
+  const deliveringToCustomerIds = useSelector(
+    (state: RootState) => state.deliverablesReducer.deliveringToCustomerIds
+  );
+
   const trackingHubConnection = useHubConnection(hubUrl.trackingHubUrl);
 
   trackingHubConnection.on(
@@ -41,14 +45,10 @@ export function HomeScreen() {
       );
     } else {
       const location = await getLocation();
-      isSignedIn && console.log("actual latitude", location.coords.latitude);
-      isSignedIn && console.log("actual longitude", location.coords.longitude);
-      isSignedIn && console.log("isloggedin");
       isSignedIn &&
         trackingHubConnection.invoke(
           "SendActualLocation",
-          "1-test-deliverable",
-          "customer1@gmail.com",
+          deliveringToCustomerIds,
           location?.coords.latitude,
           location?.coords.longitude
         );
@@ -58,13 +58,7 @@ export function HomeScreen() {
   useEffect(() => {
     return () => {
       trackingHubConnection
-        .invoke(
-          "SendActualLocation",
-          "1-test-deliverable",
-          "customer1@gmail.com",
-          null,
-          null
-        )
+        .invoke("SendActualLocation", deliveringToCustomerIds, null, null)
         .then(() => {
           trackingHubConnection.stop();
         });

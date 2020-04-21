@@ -8,6 +8,8 @@ export interface Deliverable {
   startLocationLongitude: number;
   destinationLocationLatitude: number;
   destinationLocationLongitude: number;
+  courierId?: string;
+  courierUserName?: string;
   accepted: boolean;
   delivering: boolean;
   delivered: boolean;

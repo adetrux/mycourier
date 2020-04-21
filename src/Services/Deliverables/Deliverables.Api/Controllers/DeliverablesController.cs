@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Deliverables.Api.Services;
 using Deliverables.Dal;
@@ -29,9 +30,19 @@ namespace Deliverables.Api.Controllers
         public ActionResult<IEnumerable<Deliverable>> GetDeliverables()
         {
             string userId = GetUserId();
+            string userUserName = GetUserName();
             string userRole = GetUserRole();
 
-            return _deliverablesService.GetDeliverables(userId, userRole).Result.ToArray();
+            return _deliverablesService.GetDeliverables(userId, userUserName, userRole).Result.ToArray();
+        }
+
+        [Authorize(Policy = "Courier")]
+        [HttpGet("delivering")]
+        public ActionResult<string[]> GetDeliveringToCustomerIds()
+        {
+            string courierUserName = GetUserName();
+
+            return _deliverablesService.GetDeliveringToCustomerIds(courierUserName).Result;
         }
 
         [Authorize(Policy = "Customer")]
@@ -48,6 +59,9 @@ namespace Deliverables.Api.Controllers
         [HttpPut("{id}")]
         public async Task UpdateDeliverable(string id, [FromBody] Deliverable deliverable)
         {
+            string courierUserName = GetUserName();
+            deliverable.CourierUserName = courierUserName;
+
             await _deliverablesRepository.UpdateDeliverable(id, deliverable);
         }
 
@@ -58,7 +72,7 @@ namespace Deliverables.Api.Controllers
 
         private string GetUserName()
         {
-            return User.Identity.Name;
+            return User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
 
         private string GetUserRole()

@@ -3,12 +3,14 @@ import { Deliverable } from "../models/deliverable";
 
 interface DeliverablesState {
   deliverables: Deliverable[];
+  deliveringToCustomerIds: string[];
   selectedDeliverable: Deliverable;
 }
 
 const initialDeliverablesState: DeliverablesState = {
   deliverables: [],
-  selectedDeliverable: ({} as unknown) as Deliverable
+  deliveringToCustomerIds: [],
+  selectedDeliverable: ({} as unknown) as Deliverable,
 };
 
 export const deliverables = createSlice({
@@ -21,6 +23,23 @@ export const deliverables = createSlice({
     ) {
       state.deliverables = action.payload.slice(0);
     },
+    setDeliveringToCustomerIds(
+      state: DeliverablesState,
+      action: PayloadAction<string[]>
+    ) {
+      state.deliveringToCustomerIds = action.payload;
+    },
+    addDeliveringToCustomerId(
+      state: DeliverablesState,
+      action: PayloadAction<string>
+    ) {
+      if (!state.deliveringToCustomerIds.includes(action.payload)) {
+        state.deliveringToCustomerIds = [
+          ...state.deliveringToCustomerIds,
+          action.payload,
+        ];
+      }
+    },
     setSelectedDeliverable(
       state: DeliverablesState,
       action: PayloadAction<Deliverable>
@@ -32,16 +51,18 @@ export const deliverables = createSlice({
       action: PayloadAction<Deliverable>
     ) {
       const index = state.deliverables.findIndex(
-        d => d.id === action.payload.id
+        (d) => d.id === action.payload.id
       );
       state.deliverables[index] = action.payload;
-    }
-  }
+    },
+  },
 });
 
 export const {
   setDeliverables,
+  setDeliveringToCustomerIds,
+  addDeliveringToCustomerId,
   setSelectedDeliverable,
-  updateDeliverable
+  updateDeliverable,
 } = deliverables.actions;
 export const deliverablesReducer = deliverables.reducer;

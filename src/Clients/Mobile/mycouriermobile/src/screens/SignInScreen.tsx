@@ -57,5 +57,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lightBlue,
     height: 50,
     padding: 10,
+    borderRadius: 20,
   },
 });

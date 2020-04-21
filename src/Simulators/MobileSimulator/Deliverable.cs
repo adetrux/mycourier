@@ -16,6 +16,7 @@ namespace MobileSimulator
         public double DestinationLocationLatitude { get; set; }
         public double DestinationLocationLongitude { get; set; }
         public string CourierId { get; set; }
+        public string CourierUserName { get; set; }
         public bool Accepted { get; set; }
         public bool Delivering { get; set; }
         public bool Delivered { get; set; }

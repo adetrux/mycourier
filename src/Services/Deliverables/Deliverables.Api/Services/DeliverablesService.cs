@@ -15,13 +15,13 @@ namespace Deliverables.Api.Services
         {
             _deliverablesRepository = deliverablesRepository;
         }
-        public async Task<IEnumerable<Deliverable>> GetDeliverables(string userId, string userRole)
+        public async Task<IEnumerable<Deliverable>> GetDeliverables(string userId, string userName, string userRole)
         {
             switch (userRole)
             {
                 case "Courier":
                     return (await _deliverablesRepository.GetDeliverables())
-                        .Where(d => d.Accepted == false || d.CourierId == userId);
+                        .Where(d => d.Accepted == false || d.CourierUserName == userName);
                 case "Customer":
                     return (await _deliverablesRepository.GetDeliverables())
                         .Where(d => d.CustomerId == userId);
@@ -30,25 +30,27 @@ namespace Deliverables.Api.Services
             }
         }
 
+        public async Task<string[]> GetDeliveringToCustomerIds(string courierUserName)
+        {
+            var deliverables = (await _deliverablesRepository.GetDeliverables())
+                .Where(d => d.CourierUserName == courierUserName)
+                .Where(d => d.Accepted == true && d.Delivered == false);
+
+            var ids = new List<string>();
+            foreach (var d in deliverables)
+            {
+                ids.Add(d.CustomerUserName);
+            }
+
+            return ids.ToArray();
+        }
+
         public async Task CreateDeliverable(Deliverable deliverable, string customerId, string customerUserName)
         {
-            Deliverable deliverableToCreate = new Deliverable
-            {
-                Id = deliverable.Id,
-                CreatedTime = deliverable.CreatedTime,
-                Name = deliverable.Name,
-                CustomerId = customerId,
-                CustomerUserName = customerUserName,
-                StartLocationLatitude = deliverable.StartLocationLatitude,
-                StartLocationLongitude = deliverable.StartLocationLongitude,
-                DestinationLocationLatitude = deliverable.DestinationLocationLatitude,
-                DestinationLocationLongitude = deliverable.DestinationLocationLongitude,
-                Accepted = deliverable.Accepted,
-                Delivering = deliverable.Delivering,
-                Delivered = deliverable.Delivered
-            };
+            deliverable.CustomerId = customerId;
+            deliverable.CustomerUserName = customerUserName;
 
-            await _deliverablesRepository.CreateDeliverable(deliverableToCreate);
+            await _deliverablesRepository.CreateDeliverable(deliverable);
         }
     }
 }

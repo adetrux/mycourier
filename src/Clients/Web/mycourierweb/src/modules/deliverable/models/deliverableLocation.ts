@@ -1,5 +1,5 @@
 export interface DeliverableLocation {
-  deliverableId: string;
+  courierUserName: string;
   latitude?: number;
   longitude?: number;
 }

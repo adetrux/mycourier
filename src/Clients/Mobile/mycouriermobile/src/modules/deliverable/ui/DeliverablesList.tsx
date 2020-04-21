@@ -12,7 +12,10 @@ import { hubUrl } from "../../../shared/service/url";
 import { RootState } from "../../../shared/store/rootReducer";
 import { Deliverable } from "../models/deliverable";
 import { deliverablesService } from "../service/deliverablesService";
-import { setDeliverables } from "../store/deliverablesStore";
+import {
+  setDeliverables,
+  setDeliveringToCustomerIds,
+} from "../store/deliverablesStore";
 import { DeliverablesListItem } from "./DeliverablesListItem";
 import { NoAvailableDeliverable } from "./NoAvailableDeliverable";
 
@@ -27,7 +30,6 @@ export function DeliverablesList() {
   deliverableHubConnection.on(
     "DeliverableCreated",
     (deliverable: Deliverable) => {
-      console.log("DeliverableCreated", deliverable);
       dispatch(setDeliverables([deliverable, ...deliverables]));
     }
   );
@@ -48,9 +50,19 @@ export function DeliverablesList() {
     fetchDeliverables();
   }, [dispatch]);
 
+  const fetchDeliveringToCustomerIds = async () => {
+    const fetchedDeliveringToCustomerIds = await deliverablesService.getDeliveringToCustomerIds();
+    dispatch(setDeliveringToCustomerIds(fetchedDeliveringToCustomerIds));
+  };
+
+  useEffect(() => {
+    fetchDeliveringToCustomerIds();
+  }, [dispatch]);
+
   const handleRefresh = useCallback(async () => {
     setRefreshing(true);
     fetchDeliverables();
+    fetchDeliveringToCustomerIds();
   }, []);
 
   const renderItem = (deliverableItemInfo: ListRenderItemInfo<Deliverable>) => (

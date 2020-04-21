@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,8 @@ namespace MobileSimulator
         private readonly HttpClient httpClient = new HttpClient();
         private string token;
 
+        private List<string> deliveringToCustomerIds;
+
         private HubConnection deliverableHubConnection;
         private HubConnection trackingHubConnection;
 
@@ -29,6 +32,8 @@ namespace MobileSimulator
 
             token = getToken();
 
+            deliveringToCustomerIds = getDeliveringToCustomerIds();
+
             buildHubConnectionsAsync();
         }
 
@@ -37,6 +42,7 @@ namespace MobileSimulator
             Deliverable updatedDeliverable = sampleDeliverable();
             updatedDeliverable.Accepted = true;
             updatedDeliverable.CourierId = "cou1";
+            updatedDeliverable.CourierUserName = "courier1@gmail.com";
             await deliverableHubConnection.InvokeAsync("UpdateDeliverable", updatedDeliverable);
 
             computeStepDistances();
@@ -63,6 +69,14 @@ namespace MobileSimulator
             string token = loginResponse.Token;
             Console.WriteLine(token);
             return token;
+        }
+
+        private List<string> getDeliveringToCustomerIds()
+        {
+            httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+            var response = httpClient.GetAsync("http://localhost:5080/deliverables/delivering");
+            var responseAsString = response.Result.Content.ReadAsStringAsync().Result;
+            return JsonConvert.DeserializeObject<List<string>>(responseAsString);
         }
 
         private async void buildHubConnectionsAsync()
@@ -103,14 +117,15 @@ namespace MobileSimulator
                 var newState = getState(delivering, delivered);
                 Console.WriteLine($"position(lat, long): ({actualLatitude}, {actualLongitude})\tstate: {newState}");
                 await trackingHubConnection.InvokeAsync("SendActualLocation",
-                    deliverable.Id,
-                    deliverable.CustomerUserName,
+                    deliveringToCustomerIds,
                     actualLatitude,
                     actualLongitude);
                 
                 if (state.Equals("accepted") && newState.Equals("delivering"))
                 {
                     Deliverable updatedDeliverable = sampleDeliverable();
+                    updatedDeliverable.CourierId = "cou1";
+                    updatedDeliverable.CourierUserName = "courier1@gmail.com";
                     updatedDeliverable.Accepted = true;
                     updatedDeliverable.Delivering = true;
                     await deliverableHubConnection.InvokeAsync("UpdateDeliverable", updatedDeliverable);
@@ -119,13 +134,14 @@ namespace MobileSimulator
                 if (newState.Equals("delivered") && state.Equals("delivering"))
                 {
                     Deliverable updatedDeliverable = sampleDeliverable();
+                    updatedDeliverable.CourierId = "cou1";
+                    updatedDeliverable.CourierUserName = "courier1@gmail.com";
                     updatedDeliverable.Accepted = true;
                     updatedDeliverable.Delivering = true;
                     updatedDeliverable.Delivered = true;
                     await deliverableHubConnection.InvokeAsync("UpdateDeliverable", updatedDeliverable);
                     await trackingHubConnection.InvokeAsync("SendActualLocation",
-                        deliverable.Id,
-                        deliverable.CustomerUserName,
+                        deliveringToCustomerIds,
                         null,
                         null);
                 }
@@ -174,6 +190,8 @@ namespace MobileSimulator
                 StartLocationLongitude = 19.147091,
                 DestinationLocationLatitude = 47.525249,
                 DestinationLocationLongitude = 19.157091,
+                CourierId = null,
+                CourierUserName = null,
                 Accepted = false,
                 Delivering = false,
                 Delivered = false,

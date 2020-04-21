@@ -75,6 +75,8 @@ export function DeliverablesList({
       dispatch(updateDeliverable(deliverable));
       if (selectedDeliverable.id === deliverable.id) {
         dispatch(setSelectedDeliverable(deliverable));
+      } else {
+        dispatch(setSelectedDeliverable(selectedDeliverable));
       }
     }
   );
@@ -110,7 +112,7 @@ export function DeliverablesList({
             </ListItemAvatar>
             <ListItemText
               primary={deliverable.name}
-              secondary={getDeliverableState(deliverable).name}
+              secondary={<i>{getDeliverableState(deliverable).name}</i>}
               className={classes.listItemText}
             />
           </ListItem>

@@ -8,7 +8,7 @@ import { useHubConnection } from "../../../shared/hub/hub";
 import { hubUrl } from "../../../shared/service/url";
 import { authService } from "../../user/authService";
 import { DeliverableLocation } from "../models/deliverableLocation";
-import { setDeliverableLocation } from "../store/deliverablesStore";
+import { addDeliverableLocation } from "../store/deliverablesStore";
 import { CreateDeliverable } from "./CreateDeliverable";
 import { DeliverablesList } from "./DeliverablesList";
 
@@ -39,19 +39,16 @@ export function DeliverablesControlPanel() {
   trackingHubConnection.on(
     "ActualLocationSent",
     (
-      deliverableId: string,
+      courierUserName: string,
       actualLatitude?: number,
       actualLongitude?: number
     ) => {
-      console.log("deliverable id:", deliverableId);
-      console.log("actual latitude: ", actualLatitude);
-      console.log("actual longitude: ", actualLongitude);
       const deliverableLocation: DeliverableLocation = {
-        deliverableId,
+        courierUserName,
         latitude: actualLatitude,
         longitude: actualLongitude,
       };
-      dispatch(setDeliverableLocation(deliverableLocation));
+      dispatch(addDeliverableLocation(deliverableLocation));
     }
   );
 

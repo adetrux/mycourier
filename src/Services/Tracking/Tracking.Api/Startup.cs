@@ -106,7 +106,7 @@ namespace Tracking.Api
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

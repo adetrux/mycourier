@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { v4 } from "uuid";
 import { colors } from "../../../assets/colors";
 import { Deliverable } from "../models/deliverable";
+import { deliverablesService } from "../service/deliverablesService";
 import { createDeliverable } from "../store/deliverablesStore";
 
 const inputVariant = "outlined";
@@ -127,6 +128,7 @@ export function CreateDeliverable({
       delivering: false,
       delivered: false,
     };
+    deliverablesService.createDeliverable(deliverableToCreate);
     dispatch(createDeliverable(deliverableToCreate));
     deliverableHubConnection.invoke("CreateDeliverable", deliverableToCreate);
     setDeliverableName("");

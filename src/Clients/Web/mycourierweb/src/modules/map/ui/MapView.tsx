@@ -29,10 +29,16 @@ export function MapView() {
     (state: RootState) => state.deliverablesReducer.deliverableLocations
   );
   const actualLatitude = deliverableLocations.find(
-    (dl) => dl.deliverableId === selectedDeliverable.id
+    (dl) =>
+      dl.courierUserName === selectedDeliverable.courierUserName &&
+      selectedDeliverable.accepted === true &&
+      selectedDeliverable.delivered === false
   )?.latitude;
   const actualLongitude = deliverableLocations.find(
-    (dl) => dl.deliverableId === selectedDeliverable.id
+    (dl) =>
+      dl.courierUserName === selectedDeliverable.courierUserName &&
+      selectedDeliverable.accepted === true &&
+      selectedDeliverable.delivered === false
   )?.longitude;
 
   const center = [47.505249, 19.137091];
