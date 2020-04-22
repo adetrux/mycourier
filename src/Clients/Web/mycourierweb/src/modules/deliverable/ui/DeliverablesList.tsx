@@ -7,7 +7,7 @@ import {
   Theme,
 } from "@material-ui/core";
 import { HubConnection } from "@microsoft/signalr";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { colors } from "../../../assets/colors";
 import { RootState } from "../../../shared/store/rootReducer";
@@ -47,6 +47,10 @@ const useStyles = makeStyles((theme: Theme) => ({
       backgroundColor: colors.lightBlue,
       transition: "0.5s",
     },
+  },
+  selectedListItem: {
+    cursor: "pointer",
+    backgroundColor: colors.lightBlue,
   },
   listItemText: {},
 }));
@@ -90,11 +94,14 @@ export function DeliverablesList({
     fetchDeliverables();
   }, [dispatch]);
 
+  const [selectedListItem, setSelectedListItem] = useState<string>("");
+
   const handleItemClick = useCallback(
     (deliverable: Deliverable) => () => {
       dispatch(setSelectedDeliverable(deliverable));
+      setSelectedListItem(deliverable.id);
     },
-    [dispatch]
+    [dispatch, setSelectedListItem]
   );
 
   return (
@@ -105,7 +112,11 @@ export function DeliverablesList({
           <ListItem
             key={deliverable.id}
             onClick={handleItemClick(deliverable)}
-            className={classes.listItem}
+            className={
+              selectedListItem === deliverable.id
+                ? classes.selectedListItem
+                : classes.listItem
+            }
           >
             <ListItemAvatar>
               <DeliverableIcon deliverable={deliverable} />
