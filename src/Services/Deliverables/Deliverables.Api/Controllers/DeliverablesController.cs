@@ -38,11 +38,11 @@ namespace Deliverables.Api.Controllers
 
         [Authorize(Policy = "Courier")]
         [HttpGet("delivering")]
-        public ActionResult<string[]> GetDeliveringToCustomerIds()
+        public ActionResult<IEnumerable<string>> GetDeliveringToCustomerIds()
         {
             string courierUserName = GetUserName();
 
-            return _deliverablesService.GetDeliveringToCustomerIds(courierUserName).Result;
+            return _deliverablesService.GetDeliveringToCustomerIds(courierUserName).Result.ToArray();
         }
 
         [Authorize(Policy = "Customer")]

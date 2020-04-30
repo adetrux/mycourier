@@ -30,7 +30,7 @@ namespace Deliverables.Api.Services
             }
         }
 
-        public async Task<string[]> GetDeliveringToCustomerIds(string courierUserName)
+        public async Task<IEnumerable<string>> GetDeliveringToCustomerIds(string courierUserName)
         {
             var deliverables = (await _deliverablesRepository.GetDeliverables())
                 .Where(d => d.CourierUserName == courierUserName)
@@ -42,7 +42,7 @@ namespace Deliverables.Api.Services
                 ids.Add(d.CustomerUserName);
             }
 
-            return ids.ToArray();
+            return ids;
         }
 
         public async Task CreateDeliverable(Deliverable deliverable, string customerId, string customerUserName)

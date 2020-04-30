@@ -28,22 +28,25 @@ namespace MobileSimulator
 
         public Simulator()
         {
-            deliverable = sampleDeliverable();
+            deliverable = getSampleDeliverable();
 
             token = getToken();
-
-            deliveringToCustomerIds = getDeliveringToCustomerIds();
+            httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
 
             buildHubConnectionsAsync();
         }
 
         public async Task StartAsync()
         {
-            Deliverable updatedDeliverable = sampleDeliverable();
+            Deliverable updatedDeliverable = getSampleDeliverable();
             updatedDeliverable.Accepted = true;
             updatedDeliverable.CourierId = "cou1";
             updatedDeliverable.CourierUserName = "courier1@gmail.com";
+
+            await updateDeliverable(updatedDeliverable);
             await deliverableHubConnection.InvokeAsync("UpdateDeliverable", updatedDeliverable);
+
+            deliveringToCustomerIds = getDeliveringToCustomerIds();
 
             computeStepDistances();
 
@@ -71,9 +74,15 @@ namespace MobileSimulator
             return token;
         }
 
+        private async Task updateDeliverable(Deliverable deliverable)
+        {
+            var json = JsonConvert.SerializeObject(deliverable);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            await httpClient.PutAsync($"http://localhost:5080/deliverables/{deliverable.Id}", data);
+        }
+
         private List<string> getDeliveringToCustomerIds()
         {
-            httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
             var response = httpClient.GetAsync("http://localhost:5080/deliverables/delivering");
             var responseAsString = response.Result.Content.ReadAsStringAsync().Result;
             return JsonConvert.DeserializeObject<List<string>>(responseAsString);
@@ -123,22 +132,26 @@ namespace MobileSimulator
                 
                 if (state.Equals("accepted") && newState.Equals("delivering"))
                 {
-                    Deliverable updatedDeliverable = sampleDeliverable();
+                    Deliverable updatedDeliverable = getSampleDeliverable();
                     updatedDeliverable.CourierId = "cou1";
                     updatedDeliverable.CourierUserName = "courier1@gmail.com";
                     updatedDeliverable.Accepted = true;
                     updatedDeliverable.Delivering = true;
+
+                    await updateDeliverable(updatedDeliverable);
                     await deliverableHubConnection.InvokeAsync("UpdateDeliverable", updatedDeliverable);
                 }
 
                 if (newState.Equals("delivered") && state.Equals("delivering"))
                 {
-                    Deliverable updatedDeliverable = sampleDeliverable();
+                    Deliverable updatedDeliverable = getSampleDeliverable();
                     updatedDeliverable.CourierId = "cou1";
                     updatedDeliverable.CourierUserName = "courier1@gmail.com";
                     updatedDeliverable.Accepted = true;
                     updatedDeliverable.Delivering = true;
                     updatedDeliverable.Delivered = true;
+
+                    await updateDeliverable(updatedDeliverable);
                     await deliverableHubConnection.InvokeAsync("UpdateDeliverable", updatedDeliverable);
                     await trackingHubConnection.InvokeAsync("SendActualLocation",
                         deliveringToCustomerIds,
@@ -177,7 +190,7 @@ namespace MobileSimulator
             else return "delivered";
         }
 
-        private Deliverable sampleDeliverable()
+        private Deliverable getSampleDeliverable()
         {
             return new Deliverable
             {

@@ -9,7 +9,7 @@ namespace Deliverables.Api.Services
     public interface IDeliverablesService
     {
         Task<IEnumerable<Deliverable>> GetDeliverables(string userId, string userName, string userRole);
-        Task<string[]> GetDeliveringToCustomerIds(string courierId);
+        Task<IEnumerable<string>> GetDeliveringToCustomerIds(string courierId);
         Task CreateDeliverable(Deliverable deliverable, string customerId, string customerUserName);
     }
 }
