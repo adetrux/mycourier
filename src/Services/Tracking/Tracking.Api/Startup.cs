@@ -49,8 +49,6 @@ namespace Tracking.Api
 
             services.AddControllers();
 
-            services.AddMemoryCache();
-
             services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = "redis:6379";

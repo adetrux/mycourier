@@ -18,12 +18,10 @@ namespace Tracking.Api.Controllers
     [ApiController]
     public class LocationsController : ControllerBase
     {
-        private readonly IMemoryCache _memoryCache;
         private readonly IDistributedCache _distributedCache;
 
-        public LocationsController(IMemoryCache memoryCache, IDistributedCache distributedCache)
+        public LocationsController(IDistributedCache distributedCache)
         {
-            _memoryCache = memoryCache;
             _distributedCache = distributedCache;
         }
 
@@ -32,13 +30,6 @@ namespace Tracking.Api.Controllers
         public ActionResult<Location> GetLocation()
         {
             string userUserName = GetUserName();
-
-            //if (!_memoryCache.TryGetValue(userUserName, out Location location))
-            //{
-            //    location = new Location();
-            //}
-
-            //return location;
 
             Location location;
             string serializedLocation;
@@ -63,8 +54,6 @@ namespace Tracking.Api.Controllers
         public async Task SetLocation([FromBody] Location location)
         {
             string userUserName = GetUserName();
-
-            //_memoryCache.Set(userUserName, location);
 
             string serializedLocation = JsonConvert.SerializeObject(location);
             byte[] encodedLocation = Encoding.UTF8.GetBytes(serializedLocation);
