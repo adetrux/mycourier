@@ -38,7 +38,7 @@ namespace Tracking.Api
                         "http://localhost:8000", // web in docker
                         "http://localhost:3000", // web
                         "http://192.168.0.80:19000") // mobile
-                    // .SetIsOriginAllowed(_ => true)
+                    //.SetIsOriginAllowed(_ => true)
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials();
@@ -48,6 +48,13 @@ namespace Tracking.Api
             services.AddSignalR();
 
             services.AddControllers();
+
+            services.AddMemoryCache();
+
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = "redis:6379";
+            });
 
             services.AddAuthentication(options =>
             {

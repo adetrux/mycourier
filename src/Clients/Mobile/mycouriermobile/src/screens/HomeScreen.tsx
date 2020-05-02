@@ -6,6 +6,7 @@ import React, { useEffect } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import { DeliverablesList } from "../modules/deliverable/ui/DeliverablesList";
+import { trackingService } from "../modules/tracking/service/trackingService";
 import { colors } from "../res/colors";
 import { useHubConnection } from "../shared/hub/hub";
 import { hubUrl } from "../shared/service/url";
@@ -45,13 +46,16 @@ export function HomeScreen() {
       );
     } else {
       const location = await getLocation();
-      isSignedIn &&
+      if (isSignedIn) {
+        const { latitude, longitude } = location?.coords;
+        trackingService.setLocation({ latitude, longitude });
         trackingHubConnection.invoke(
           "SendActualLocation",
           deliveringToCustomerIds,
-          location?.coords.latitude,
-          location?.coords.longitude
+          latitude,
+          longitude
         );
+      }
     }
   }, 3000);
 

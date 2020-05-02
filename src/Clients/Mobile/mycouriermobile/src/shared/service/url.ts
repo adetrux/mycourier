@@ -1,7 +1,8 @@
 export const serviceUrl = {
   serviceBaseUrl: "http://192.168.0.80:5080",
   usersServiceApiUrl: "http://192.168.0.80:5080/users",
-  deliverablesServiceApiUrl: "http://192.168.0.80:5080/deliverables"
+  deliverablesServiceApiUrl: "http://192.168.0.80:5080/deliverables",
+  trackingServiceApiUrl: "http://192.168.0.80:5080/tracking/locations",
 };
 
 // -- Q
@@ -20,7 +21,7 @@ export const serviceUrl = {
 
 export const hubUrl = {
   deliverableHubUrl: "http://192.168.0.80:5080/deliverables/deliverableHub",
-  trackingHubUrl: "http://192.168.0.80:5080/tracking/trackingHub"
+  trackingHubUrl: "http://192.168.0.80:5080/tracking/trackingHub",
 };
 
 // -- Q

@@ -5,21 +5,23 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Tracking.Api.Model;
 
 namespace MobileSimulator
 {
     public class Simulator
     {
-        public double actualLatitude = 47.505249;
-        public double actualLongitude = 19.137091;
-        private readonly Deliverable deliverable;
+        private double actualLatitude = 47.505249;
+        private double actualLongitude = 19.137091;
         private double latitudeStepDistance = 0;
         private double longitudeStepDistance = 0;
+
+        private readonly Deliverable deliverable;
         private bool delivering = false;
         private bool delivered = false;
 
-        private readonly HttpClient httpClient = new HttpClient();
-        private string token;
+        private readonly string baseUrl = "http://localhost:5080";
+        private readonly string token;
 
         private List<string> deliveringToCustomerIds;
 
@@ -31,7 +33,6 @@ namespace MobileSimulator
             deliverable = getSampleDeliverable();
 
             token = getToken();
-            httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
 
             buildHubConnectionsAsync();
         }
@@ -46,7 +47,7 @@ namespace MobileSimulator
             await updateDeliverable(updatedDeliverable);
             await deliverableHubConnection.InvokeAsync("UpdateDeliverable", updatedDeliverable);
 
-            deliveringToCustomerIds = getDeliveringToCustomerIds();
+            deliveringToCustomerIds = await getDeliveringToCustomerIds();
 
             computeStepDistances();
 
@@ -54,61 +55,6 @@ namespace MobileSimulator
 
             var state = getState(delivering, delivered);
             Console.WriteLine($"position(lat, long): ({actualLatitude}, {actualLongitude})\tstate: {state}");
-        }
-
-        private string getToken()
-        {
-            LoginRequest loginRequest = new LoginRequest
-            {
-                Email = "courier1@gmail.com",
-                Password = "password0"
-            };
-
-            var json = JsonConvert.SerializeObject(loginRequest);
-            var data = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = httpClient.PostAsync("http://localhost:5080/users/login", data);
-            var responseAsString = response.Result.Content.ReadAsStringAsync().Result;
-            LoginResponse loginResponse = JsonConvert.DeserializeObject<LoginResponse>(responseAsString);
-            string token = loginResponse.Token;
-            Console.WriteLine(token);
-            return token;
-        }
-
-        private async Task updateDeliverable(Deliverable deliverable)
-        {
-            var json = JsonConvert.SerializeObject(deliverable);
-            var data = new StringContent(json, Encoding.UTF8, "application/json");
-            await httpClient.PutAsync($"http://localhost:5080/deliverables/{deliverable.Id}", data);
-        }
-
-        private List<string> getDeliveringToCustomerIds()
-        {
-            var response = httpClient.GetAsync("http://localhost:5080/deliverables/delivering");
-            var responseAsString = response.Result.Content.ReadAsStringAsync().Result;
-            return JsonConvert.DeserializeObject<List<string>>(responseAsString);
-        }
-
-        private async void buildHubConnectionsAsync()
-        {
-            deliverableHubConnection = new HubConnectionBuilder()
-                .WithUrl("http://localhost:5080/deliverables/deliverableHub", options =>
-                {
-                    options.AccessTokenProvider = () => Task.FromResult(token);
-                })
-                .WithAutomaticReconnect()
-                .Build();
-
-            await deliverableHubConnection.StartAsync();
-
-            trackingHubConnection = new HubConnectionBuilder()
-                .WithUrl("http://localhost:5080/tracking/trackingHub", options =>
-                {
-                    options.AccessTokenProvider = () => Task.FromResult(token);
-                })
-                .WithAutomaticReconnect()
-                .Build();
-
-            await trackingHubConnection.StartAsync();
         }
 
         private void computeStepDistances()
@@ -125,11 +71,13 @@ namespace MobileSimulator
                 action();
                 var newState = getState(delivering, delivered);
                 Console.WriteLine($"position(lat, long): ({actualLatitude}, {actualLongitude})\tstate: {newState}");
+
+                await setLocation(new Location { Latitude = actualLatitude, Longitude = actualLongitude });
                 await trackingHubConnection.InvokeAsync("SendActualLocation",
                     deliveringToCustomerIds,
                     actualLatitude,
                     actualLongitude);
-                
+
                 if (state.Equals("accepted") && newState.Equals("delivering"))
                 {
                     Deliverable updatedDeliverable = getSampleDeliverable();
@@ -153,6 +101,7 @@ namespace MobileSimulator
 
                     await updateDeliverable(updatedDeliverable);
                     await deliverableHubConnection.InvokeAsync("UpdateDeliverable", updatedDeliverable);
+
                     await trackingHubConnection.InvokeAsync("SendActualLocation",
                         deliveringToCustomerIds,
                         null,
@@ -162,7 +111,7 @@ namespace MobileSimulator
                 await Task.Delay(TimeSpan.FromSeconds(seconds));
             }
         }
-        
+
         private void move()
         {
             if (actualLatitude >= deliverable.DestinationLocationLatitude && actualLongitude >= deliverable.DestinationLocationLongitude)
@@ -180,7 +129,49 @@ namespace MobileSimulator
                 actualLatitude += latitudeStepDistance;
                 actualLongitude += longitudeStepDistance;
             }
-            
+
+        }
+
+        private string getToken()
+        {
+            LoginRequest loginRequest = new LoginRequest
+            {
+                Email = "courier1@gmail.com",
+                Password = "password0"
+            };
+
+            using var client = new HttpClient();
+            var data = createDataFromObject(loginRequest);
+
+            var response = client.PostAsync($"{baseUrl}/users/login", data);
+            var responseAsString = response.Result.Content.ReadAsStringAsync().Result;
+            string token = JsonConvert.DeserializeObject<LoginResponse>(responseAsString).Token;
+
+            return token;
+        }
+
+        private async Task updateDeliverable(Deliverable deliverable)
+        {
+            HttpClient client = getClient();
+            var data = createDataFromObject(deliverable);
+            await client.PutAsync($"{baseUrl}/deliverables/{deliverable.Id}", data);
+        }
+
+        private async Task<List<string>> getDeliveringToCustomerIds()
+        {
+            HttpClient client = getClient();
+
+            var response = await client.GetAsync($"{baseUrl}/deliverables/delivering");
+            var responseAsString = response.Content.ReadAsStringAsync().Result;
+            return JsonConvert.DeserializeObject<List<string>>(responseAsString);
+        }
+
+        private async Task setLocation(Location location)
+        {
+            HttpClient client = getClient();
+            var data = createDataFromObject(location);
+
+            await client.PutAsync($"{baseUrl}/tracking/locations", data);
         }
 
         private string getState(bool delivering, bool delivered)
@@ -188,6 +179,45 @@ namespace MobileSimulator
             if (!delivering && !delivered) return "accepted";
             else if (delivering && !delivered) return "delivering";
             else return "delivered";
+        }
+
+        private HttpClient getClient()
+        {
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+
+            return client;
+        }
+
+        private StringContent createDataFromObject<T>(T objectToData)
+        {
+            var json = JsonConvert.SerializeObject(objectToData);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+            return data;
+        }
+
+        private async void buildHubConnectionsAsync()
+        {
+            deliverableHubConnection = new HubConnectionBuilder()
+                .WithUrl($"{baseUrl}/deliverables/deliverableHub", options =>
+                {
+                    options.AccessTokenProvider = () => Task.FromResult(token);
+                })
+                .WithAutomaticReconnect()
+                .Build();
+
+            await deliverableHubConnection.StartAsync();
+
+            trackingHubConnection = new HubConnectionBuilder()
+                .WithUrl($"{baseUrl}/tracking/trackingHub", options =>
+                {
+                    options.AccessTokenProvider = () => Task.FromResult(token);
+                })
+                .WithAutomaticReconnect()
+                .Build();
+
+            await trackingHubConnection.StartAsync();
         }
 
         private Deliverable getSampleDeliverable()

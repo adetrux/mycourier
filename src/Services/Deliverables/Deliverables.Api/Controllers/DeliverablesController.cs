@@ -7,6 +7,7 @@ using Deliverables.Dal;
 using Deliverables.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 
 namespace Deliverables.Api.Controllers
 {
@@ -32,8 +33,9 @@ namespace Deliverables.Api.Controllers
             string userId = GetUserId();
             string userUserName = GetUserName();
             string userRole = GetUserRole();
+            string token = GetToken();
 
-            return _deliverablesService.GetDeliverables(userId, userUserName, userRole).Result.ToArray();
+            return _deliverablesService.GetDeliverables(userId, userUserName, userRole, token).Result.ToArray();
         }
 
         [Authorize(Policy = "Courier")]
@@ -78,6 +80,11 @@ namespace Deliverables.Api.Controllers
         private string GetUserRole()
         {
             return User.FindFirst("Role").Value;
+        }
+
+        private string GetToken()
+        {
+            return Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
         }
     }
 }
