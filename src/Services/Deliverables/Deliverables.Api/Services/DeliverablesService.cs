@@ -14,6 +14,8 @@ namespace Deliverables.Api.Services
     {
         private readonly IDeliverablesRepository _deliverablesRepository;
 
+        private readonly double radius_Near = 0.2;
+
         public DeliverablesService(IDeliverablesRepository deliverablesRepository)
         {
             _deliverablesRepository = deliverablesRepository;
@@ -34,24 +36,22 @@ namespace Deliverables.Api.Services
 
                     if (latitude.HasValue && longitude.HasValue)
                     {
-                        deliverablesForCourier.Where(d =>
-                        (Math.Sqrt(
-                            Math.Pow(Math.Abs((double)(d.StartLocationLatitude - latitude)), 2) +
-                            Math.Pow(Math.Abs((double)(d.StartLocationLongitude - longitude)), 2))) < 0.2);
+                        // Filter nearby deliverables
+                        var nearbyDeliverables = deliverablesForCourier
+                            .Where(d => GetDistance(d, latitude, longitude) < radius_Near);
 
-                        deliverablesForCourier.OrderBy(d =>
-                            (Math.Sqrt(
-                                Math.Pow(Math.Abs((double)(d.StartLocationLatitude - latitude)), 2) +
-                                Math.Pow(Math.Abs((double)(d.StartLocationLongitude - longitude)), 2))));
+                        // Sort deliverables by distance
+                        nearbyDeliverables.OrderBy(d => GetDistance(d, latitude, longitude));
+
+                        return nearbyDeliverables;
                     }
                     
                     return deliverablesForCourier;
 
-                    //return (await _deliverablesRepository.GetDeliverables())
-                    //    .Where(d => d.Accepted == false || d.CourierUserName == userName);
                 case "Customer":
                     return (await _deliverablesRepository.GetDeliverables())
                         .Where(d => d.CustomerId == userId);
+
                 default:
                     throw new Exception("Role does not exist.");
             }
@@ -90,6 +90,13 @@ namespace Deliverables.Api.Services
             Location location = JsonConvert.DeserializeObject<Location>(responseAsString);
 
             return location;
+        }
+
+        private double GetDistance(Deliverable deliverable, double? latitude, double? longitude)
+        {
+            return Math.Sqrt(
+                Math.Pow((double)(deliverable.StartLocationLatitude - latitude), 2) +
+                Math.Pow((double)(deliverable.StartLocationLongitude - longitude), 2));
         }
     }
 }

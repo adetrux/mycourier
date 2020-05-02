@@ -3,6 +3,7 @@ version: "3.4"
 services:
   apigateway:
     image: traefik:v2.1
+    container_name: "traefikapigw"
     ports:
       - "5080:80" # Port of the API Gateway, which will be the port behind which the system will be published
       - "5081:443" # https
@@ -74,6 +75,7 @@ services:
 
   usersdb:
     image: "mcr.microsoft.com/mssql/server"
+    container_name: "usersdb"
     environment:
       SA_PASSWORD: "Password123UsersDb"
       ACCEPT_EULA: "Y"
@@ -86,6 +88,7 @@ services:
 
   deliverablesdb:
     image: "mcr.microsoft.com/mssql/server"
+    container_name: "deliverablesdb"
     environment:
       SA_PASSWORD: "Password123DeliverablesDb"
       ACCEPT_EULA: "Y"
@@ -98,7 +101,7 @@ services:
 
   redis:
     image: "redis:latest"
-    container_name: "cache"
+    container_name: "rediscache"
     ports:
       - "6379:6379"
     networks:

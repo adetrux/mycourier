@@ -73,6 +73,22 @@ namespace Deliverables.Dal
                     Accepted = false,
                     Delivering = false,
                     Delivered = false
+                },
+                new Deliverable
+                {
+                    Id = "4-test-deliverable",
+                    CreatedTime = 4,
+                    Name = "Test4",
+                    CustomerId = "cus1",
+                    CustomerUserName = "customer1@gmail.com",
+                    StartLocationLatitude = 0.515249,
+                    StartLocationLongitude = 0.127091,
+                    DestinationLocationLatitude = 0.535249,
+                    DestinationLocationLongitude = 0.147091,
+                    CourierId = null,
+                    Accepted = false,
+                    Delivering = false,
+                    Delivered = false
                 });
         }
     }
