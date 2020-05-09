@@ -3,11 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways", "{55812DA6-F864-46A2-BB26-75FDD316109B}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{BF486FD4-2E21-40C9-8B4A-E4E55695DDDC}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ocelot.ApiGateway", "ApiGateways\Ocelot.ApiGateway\Ocelot.ApiGateway.csproj", "{6CDB4F60-8A4B-413F-8E8F-7E413F8A49CF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Users.Api", "Services\Users\Users.Api\Users.Api.csproj", "{C72E06D9-1606-4298-9CCF-3BFF22D3ABA0}"
 EndProject
@@ -33,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tracking.Api", "Services\Tr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Simulators", "Simulators", "{19B19699-FA76-4B0E-93DC-BA8BB211449C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileSimulator", "Simulators\MobileSimulator\MobileSimulator.csproj", "{1E45856C-5019-4AC1-8DAD-1C887759886F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileSimulator", "Simulators\MobileSimulator\MobileSimulator.csproj", "{1E45856C-5019-4AC1-8DAD-1C887759886F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +37,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6CDB4F60-8A4B-413F-8E8F-7E413F8A49CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6CDB4F60-8A4B-413F-8E8F-7E413F8A49CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6CDB4F60-8A4B-413F-8E8F-7E413F8A49CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6CDB4F60-8A4B-413F-8E8F-7E413F8A49CF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C72E06D9-1606-4298-9CCF-3BFF22D3ABA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C72E06D9-1606-4298-9CCF-3BFF22D3ABA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C72E06D9-1606-4298-9CCF-3BFF22D3ABA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -86,7 +78,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{6CDB4F60-8A4B-413F-8E8F-7E413F8A49CF} = {55812DA6-F864-46A2-BB26-75FDD316109B}
 		{C72E06D9-1606-4298-9CCF-3BFF22D3ABA0} = {706A43D8-1424-47F0-A6E9-6FCC3E58EF79}
 		{706A43D8-1424-47F0-A6E9-6FCC3E58EF79} = {BF486FD4-2E21-40C9-8B4A-E4E55695DDDC}
 		{82958C01-4DAD-4DBA-A8F4-1CB9E2D0874F} = {706A43D8-1424-47F0-A6E9-6FCC3E58EF79}
