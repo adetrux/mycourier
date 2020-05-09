@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { DeliverablesList } from "../modules/deliverable/ui/DeliverablesList";
 import { trackingService } from "../modules/tracking/service/trackingService";
 import { colors } from "../res/colors";
-import { useHubConnection } from "../shared/hub/hub";
+import { buildHubConnection } from "../shared/hub/hub";
 import { hubUrl } from "../shared/service/url";
 import { RootState } from "../shared/store/rootReducer";
 
@@ -21,7 +21,7 @@ export function HomeScreen() {
     (state: RootState) => state.deliverablesReducer.deliveringToCustomerIds
   );
 
-  const trackingHubConnection = useHubConnection(hubUrl.trackingHubUrl);
+  const trackingHubConnection = buildHubConnection(hubUrl.trackingHubUrl);
 
   trackingHubConnection.on(
     "ActualLocationSent",

@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { useHubConnection } from "../../../shared/hub/hub";
+import { buildHubConnection } from "../../../shared/hub/hub";
 import { hubUrl } from "../../../shared/service/url";
 import { RootState } from "../../../shared/store/rootReducer";
 import { Deliverable } from "../models/deliverable";
@@ -25,7 +25,7 @@ export function DeliverablesList() {
     (state: RootState) => state.deliverablesReducer.deliverables
   );
 
-  const deliverableHubConnection = useHubConnection(hubUrl.deliverableHubUrl);
+  const deliverableHubConnection = buildHubConnection(hubUrl.deliverableHubUrl);
 
   deliverableHubConnection.on(
     "DeliverableCreated",

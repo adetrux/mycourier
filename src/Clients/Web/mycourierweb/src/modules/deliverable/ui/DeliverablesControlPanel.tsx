@@ -4,7 +4,7 @@ import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { colors } from "../../../assets/colors";
-import { useHubConnection } from "../../../shared/hub/hub";
+import { buildHubConnection } from "../../../shared/hub/hub";
 import { hubUrl } from "../../../shared/service/url";
 import { authService } from "../../user/authService";
 import { DeliverableLocation } from "../models/deliverableLocation";
@@ -34,8 +34,8 @@ export function DeliverablesControlPanel() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const deliverableHubConnection = useHubConnection(hubUrl.deliverableHubUrl);
-  const trackingHubConnection = useHubConnection(hubUrl.trackingHubUrl);
+  const deliverableHubConnection = buildHubConnection(hubUrl.deliverableHubUrl);
+  const trackingHubConnection = buildHubConnection(hubUrl.trackingHubUrl);
   trackingHubConnection.on(
     "ActualLocationSent",
     (
