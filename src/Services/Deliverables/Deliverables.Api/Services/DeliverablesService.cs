@@ -80,6 +80,11 @@ namespace Deliverables.Api.Services
             await _deliverablesRepository.CreateDeliverable(deliverable);
         }
 
+        public async Task UpdateDeliverable(string id, Deliverable deliverable)
+        {
+            await _deliverablesRepository.UpdateDeliverable(id, deliverable);
+        }
+
         private async Task<Location> GetCourierLocation(string token)
         {
             var client = new HttpClient();

@@ -12,5 +12,6 @@ namespace Deliverables.Api.Services
             string userId, string userName, string userRole, string token);
         Task<IEnumerable<string>> GetDeliveringToCustomerIds(string courierId);
         Task CreateDeliverable(Deliverable deliverable, string customerId, string customerUserName);
+        Task UpdateDeliverable(string id, Deliverable deliverable);
     }
 }

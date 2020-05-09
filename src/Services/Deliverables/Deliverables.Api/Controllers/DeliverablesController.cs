@@ -3,7 +3,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Deliverables.Api.Services;
-using Deliverables.Dal;
 using Deliverables.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,14 +14,10 @@ namespace Deliverables.Api.Controllers
     [ApiController]
     public class DeliverablesController : ControllerBase
     {
-        private readonly IDeliverablesRepository _deliverablesRepository;
         private readonly IDeliverablesService _deliverablesService;
 
-        public DeliverablesController(
-            IDeliverablesRepository deliverablesRepository,
-            IDeliverablesService deliverablesService)
+        public DeliverablesController(IDeliverablesService deliverablesService)
         {
-            _deliverablesRepository = deliverablesRepository;
             _deliverablesService = deliverablesService;
         }
 
@@ -64,7 +59,7 @@ namespace Deliverables.Api.Controllers
             string courierUserName = GetUserName();
             deliverable.CourierUserName = courierUserName;
 
-            await _deliverablesRepository.UpdateDeliverable(id, deliverable);
+            await _deliverablesService.UpdateDeliverable(id, deliverable);
         }
 
         private string GetUserId()
