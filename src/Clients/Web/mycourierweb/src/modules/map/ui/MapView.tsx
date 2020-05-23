@@ -1,8 +1,12 @@
 import { makeStyles, Theme } from "@material-ui/core";
-import React from "react";
+import React, { useMemo } from "react";
 import { Map, Marker, TileLayer } from "react-leaflet";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { buildHubConnection } from "../../../shared/hub/hub";
+import { hubUrl } from "../../../shared/service/url";
 import { RootState } from "../../../shared/store/rootReducer";
+import { DeliverableLocation } from "../../deliverable/models/deliverableLocation";
+import { addDeliverableLocation } from "../../deliverable/store/deliverablesStore";
 import {
   actualMarkerIcon,
   destinationMarkerIcon,
@@ -22,24 +26,54 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export function MapView() {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const selectedDeliverable = useSelector(
     (state: RootState) => state.deliverablesReducer.selectedDeliverable
   );
   const deliverableLocations = useSelector(
     (state: RootState) => state.deliverablesReducer.deliverableLocations
   );
-  const actualLatitude = deliverableLocations.find(
-    (dl) =>
-      dl.courierUserName === selectedDeliverable.courierUserName &&
-      selectedDeliverable.accepted === true &&
-      selectedDeliverable.delivered === false
-  )?.latitude;
-  const actualLongitude = deliverableLocations.find(
-    (dl) =>
-      dl.courierUserName === selectedDeliverable.courierUserName &&
-      selectedDeliverable.accepted === true &&
-      selectedDeliverable.delivered === false
-  )?.longitude;
+
+  const actualLatitude = useMemo(() => {
+    return deliverableLocations.find(
+      (dl) =>
+        dl.courierUserName === selectedDeliverable.courierUserName &&
+        selectedDeliverable.accepted === true &&
+        selectedDeliverable.delivered === false
+    )?.latitude;
+  }, [
+    deliverableLocations,
+    selectedDeliverable.accepted,
+    selectedDeliverable.courierUserName,
+    selectedDeliverable.delivered,
+  ]);
+
+  const actualLongitude = useMemo(() => {
+    return deliverableLocations.find(
+      (dl) =>
+        dl.courierUserName === selectedDeliverable.courierUserName &&
+        selectedDeliverable.accepted === true &&
+        selectedDeliverable.delivered === false
+    )?.longitude;
+  }, [
+    deliverableLocations,
+    selectedDeliverable.accepted,
+    selectedDeliverable.courierUserName,
+    selectedDeliverable.delivered,
+  ]);
+
+  const trackingHubConnection = buildHubConnection(hubUrl.trackingHubUrl);
+  trackingHubConnection.on(
+    "ActualLocationSent",
+    (courierUserName: string, latitude?: number, longitude?: number) => {
+      const deliverableLocation: DeliverableLocation = {
+        courierUserName,
+        latitude,
+        longitude,
+      };
+      dispatch(addDeliverableLocation(deliverableLocation));
+    }
+  );
 
   const center = [47.505249, 19.137091];
 

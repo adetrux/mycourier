@@ -34,7 +34,7 @@ export const deliverablesService: DeliverablesService = {
     return axios
       .post(`${serviceUrl.deliverablesServiceApiUrl}/create`, deliverable, {
         headers: {
-          Authorization: "token",
+          Authorization: authService.getAuthString(),
         },
       })
       .then(() => {

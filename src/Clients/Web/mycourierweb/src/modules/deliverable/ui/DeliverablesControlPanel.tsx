@@ -1,14 +1,11 @@
 import { IconButton, makeStyles, Theme, Tooltip } from "@material-ui/core";
 import ExitToApp from "@material-ui/icons/ExitToApp";
 import React, { useCallback } from "react";
-import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { colors } from "../../../assets/colors";
 import { buildHubConnection } from "../../../shared/hub/hub";
 import { hubUrl } from "../../../shared/service/url";
 import { authService } from "../../user/authService";
-import { DeliverableLocation } from "../models/deliverableLocation";
-import { addDeliverableLocation } from "../store/deliverablesStore";
 import { CreateDeliverable } from "./CreateDeliverable";
 import { DeliverablesList } from "./DeliverablesList";
 
@@ -32,25 +29,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 export function DeliverablesControlPanel() {
   const classes = useStyles();
   const history = useHistory();
-  const dispatch = useDispatch();
 
   const deliverableHubConnection = buildHubConnection(hubUrl.deliverableHubUrl);
-  const trackingHubConnection = buildHubConnection(hubUrl.trackingHubUrl);
-  trackingHubConnection.on(
-    "ActualLocationSent",
-    (
-      courierUserName: string,
-      actualLatitude?: number,
-      actualLongitude?: number
-    ) => {
-      const deliverableLocation: DeliverableLocation = {
-        courierUserName,
-        latitude: actualLatitude,
-        longitude: actualLongitude,
-      };
-      dispatch(addDeliverableLocation(deliverableLocation));
-    }
-  );
 
   const handleLogout = useCallback(() => {
     authService.logout();

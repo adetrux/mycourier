@@ -3,7 +3,7 @@ import Constants from "expo-constants";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import React, { useEffect } from "react";
-import { Platform, StyleSheet, Text, View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
 import { DeliverablesList } from "../modules/deliverable/ui/DeliverablesList";
 import { trackingService } from "../modules/tracking/service/trackingService";
